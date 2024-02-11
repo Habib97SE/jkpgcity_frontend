@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import RegisterController from "../../controller/RegisterController";
-import {FaEye, FaEyeSlash } from "react-icons/fa";
+import {FaEye, FaEyeSlash} from "react-icons/fa";
 import {MdEmail} from "react-icons/md";
 
 
@@ -40,21 +40,23 @@ function RegisterForm() {
 
 
     const onSubmit = async (data) => {
+        setIsLoading(true);
         const response = await handleOnSubmit(data);
         if (response.status === 201) {
             setError("");
             setIsLoading(false);
             window.location.href = "/login";
+            setIsLoading(false);
         } else {
-
             setError(response.data.message);
+            setIsLoading(false);
         }
+        setIsLoading(false);
     }
 
 
-
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className={"col-12"} onSubmit={handleSubmit(onSubmit)}>
             <div className={"form-group"}>
                 <label htmlFor={"first-name"}>First name</label>
                 <input
@@ -96,13 +98,14 @@ function RegisterForm() {
             <div className={"form-group"}>
                 <label htmlFor={"password"}>Password</label>
                 <div className="input-group">
-                <input
+                    <input
                         {...register("password")}
                         type={showPassword ? 'text' : 'password'}
                         className={`form-control ${errors.password ? "is-invalid" : ""}`}
                         id="password"
                         value={password}
                         onChange={handlePassword}
+                        placeholder={"Password"}
                     />
                     <button
                         type="button"
@@ -135,7 +138,11 @@ function RegisterForm() {
                     {errors.agreement && <p className="error text-danger">{errors.agreement.message}</p>}
                 </div>
             </div>
-            <button type={"submit"} className={"btn btn-primary col-12 my-2"}>{isLoading ? "Loading ..." : "Submit"}</button>
+            <button type={"submit"} className={"btn btn-primary col-12 my-2"}>{
+                isLoading ? <div className="spinner-border text-light" role="status">
+                    <span className="sr-only"></span>
+                </div> : "Register"
+            }</button>
             {error && <p className="error text-danger">{error}</p>}
 
         </form>
