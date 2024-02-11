@@ -9,13 +9,17 @@ function RegisterPage() {
             <div className={"row"}>
                 <div className={"col-md-6 offset-md-3"}>
                     <h1 className={"text-center"}>Register</h1>
-                    <RegisterForm />
+                    <RegisterForm/>
                     <div className={"text-center"}>
                         <a href={"/login"}>Already have an account?</a>
                     </div>
-                    <div className={"col-12"}>
-                        <button className={"btn btn-primary col-5 mx-2"}><FaFacebookF /> Continue with Facebook</button>
-                        <button className={"btn btn-danger col-5"}><FaGoogle /> Continue with Google</button>
+                    <div className="col-12 d-sm-flex justify-content-between">
+                        <button className="btn btn-primary col-6">
+                            <FaFacebookF/> Continue with Facebook
+                        </button>
+                        <button className={"btn btn-danger col-6"}>
+                            <FaGoogle/> Continue with Google
+                        </button>
                     </div>
                 </div>
             </div>

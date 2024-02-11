@@ -20,6 +20,7 @@ function RegisterForm() {
     const {register, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(validationSchema)
     });
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const {
         firstName,
@@ -38,12 +39,15 @@ function RegisterForm() {
     } = RegisterController();
 
 
-    const onSubmit = (data) => {
-        const response = handleOnSubmit(data);
+    const onSubmit = async (data) => {
+        const response = await handleOnSubmit(data);
         if (response.status === 201) {
-            console.log("User registered successfully");
+            setError("");
+            setIsLoading(false);
+            window.location.href = "/login";
         } else {
-            console.log(response.data.message);
+
+            setError(response.data.message);
         }
     }
 
@@ -131,8 +135,8 @@ function RegisterForm() {
                     {errors.agreement && <p className="error text-danger">{errors.agreement.message}</p>}
                 </div>
             </div>
-            <button type={"submit"} className={"btn btn-primary col-12 my-2"}>Submit</button>
-            <div className={"text-danger"}>{error}</div>
+            <button type={"submit"} className={"btn btn-primary col-12 my-2"}>{isLoading ? "Loading ..." : "Submit"}</button>
+            {error && <p className="error text-danger">{error}</p>}
 
         </form>
     );

@@ -1,26 +1,17 @@
-const axios = require('axios');
+import axios from 'axios';
 
 class Register {
-    constructor(firstName, lastName, email, password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-    }
 
-    async registerUser() {
+    static async registerUser(user) {
+        const headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "true",
+        }
+        const endpoint = "http://localhost:5000/api/v1/users";
         try {
-            const user = {
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email,
-                password: this.password,
-                role: "3"
-            }
-            const endpoint = "http://localhost:8080/api/v1/users";
-            return await axios.post(endpoint, user);
+            return await axios.post(endpoint, user, {headers: headers});
         } catch (error) {
-            return error.data.message;
+            return error.response;
         }
     }
 }

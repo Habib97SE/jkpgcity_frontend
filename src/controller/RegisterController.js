@@ -1,5 +1,6 @@
 import {useState} from "react";
 import Register from "../models/Register";
+
 function RegisterController() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -27,16 +28,9 @@ function RegisterController() {
         setShowPassword(!showPassword);
     }
 
-    const handleOnSubmit = (e) => {
-        e.preventDefault();
-        const register = new Register(firstName, lastName, email, password);
-        register.registerUser().then(response => {
-            if (response.status === 201) {
-                return response.data;
-            } else {
-                return response.data.message;
-            }
-        });
+    const handleOnSubmit = async (data) => {
+        data.role = "3";
+        return await Register.registerUser(data);
     }
 
 
