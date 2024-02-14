@@ -12,6 +12,9 @@ const schema = yup.object().shape({
 
 function Newsletter() {
 
+    const [successMessage, setSuccessMessage] = React.useState("");
+    const [errorMessage, setErrorMessage] = React.useState("");
+
     const {
         email,
         handleEmail,
@@ -22,8 +25,17 @@ function Newsletter() {
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = (data) => {
-        handleOnSubmit(data);
+    const onSubmit = async (data) => {
+        setSuccessMessage("");
+        setErrorMessage("");
+        const response = await handleOnSubmit(data);
+        if (response.static === 200) {
+            setTimeout(() => {
+                setSuccessMessage(response.data.message);
+            }, 3000);
+        } else {
+            setErrorMessage(response.data.message);
+        }
     }
 
     return (
@@ -41,6 +53,7 @@ function Newsletter() {
                 <button className="btn btn-outline-secondary" type="submit">Subscribe</button>
             </div>
             {errors.email && <div className="alert alert-danger">{errors.email.message}</div>}
+            {successMessage && <div className="alert alert-success">{successMessage}</div>}
         </form>
     );
 }

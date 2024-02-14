@@ -24,3 +24,5 @@ function NewsletterController()
         handleOnSubmit
     };
 }
+
+export default NewsletterController;
