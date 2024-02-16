@@ -5,8 +5,10 @@ import ProfileItem from "./ProfileItem";
 function NavBar() {
     const menuItems = [
         {href: "/", text: "Home"},
-        {href: "/login", text: "Login"},
-        {href: "/register", text: "Register"},
+        {href: "/about", text: "About"},
+        {href: "/contact", text: "Contact"},
+        {href: "/venues", text: "Venues"},
+        {href: "/news", text: "News"},
     ];
 
     const navItems = menuItems.map((item, index) => {
@@ -22,7 +24,7 @@ function NavBar() {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid mx-5 px-xl-5">
-                <a className="navbar-brand" href="#">JKPG City</a>
+                <a className="navbar-brand" href="/">JKPG City</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">

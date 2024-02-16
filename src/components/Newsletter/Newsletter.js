@@ -14,6 +14,7 @@ function Newsletter() {
 
     const [successMessage, setSuccessMessage] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const {
         email,
@@ -26,15 +27,22 @@ function Newsletter() {
     });
 
     const onSubmit = async (data) => {
-        setSuccessMessage("");
-        setErrorMessage("");
-        const response = await handleOnSubmit(data);
-        if (response.static === 200) {
-            setTimeout(() => {
-                setSuccessMessage(response.data.message);
-            }, 3000);
-        } else {
-            setErrorMessage(response.data.message);
+        try {
+            setIsLoading(true);
+            const response = await handleOnSubmit(data);
+            if (response.status === 200) {
+                setSuccessMessage("You have been successfully subscribed to our newsletter");
+                setErrorMessage("");
+                setIsLoading(false);
+            } else {
+                setErrorMessage("There was an error. Please try again");
+                setSuccessMessage("");
+                setIsLoading(false);
+            }
+        } catch (e) {
+            setErrorMessage("There was an error. Please try again");
+            setSuccessMessage("");
+            setIsLoading(false);
         }
     }
 
@@ -50,10 +58,15 @@ function Newsletter() {
                     value={email}
                     onChange={handleEmail}
                 />
-                <button className="btn btn-outline-secondary" type="submit">Subscribe</button>
+                <button className="btn btn-outline-secondary" type="submit">{
+                    isLoading ? <div className="spinner-border" role="status">
+                        <span className="sr-only"></span>
+                    </div> : "Login"
+                }</button>
             </div>
             {errors.email && <div className="alert alert-danger">{errors.email.message}</div>}
             {successMessage && <div className="alert alert-success">{successMessage}</div>}
+            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
         </form>
     );
 }

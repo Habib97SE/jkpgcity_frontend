@@ -43,7 +43,12 @@ function LoginForm() {
         if (response.status === 200) {
             setError("");
             setIsLoading(false);
-            console.log("Login successful")
+            console.log("Login successful");
+            // set cookie
+            document.cookie = `user_id=${response.data.data.userId}`;
+            document.cookie = `auth_token=${response.data.token}`
+            // redirect to home
+            window.location.href = "/";
         } else {
             setError("Invalid email or password");
             setIsLoading(false);
