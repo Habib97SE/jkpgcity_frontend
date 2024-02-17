@@ -4,7 +4,7 @@ import ForgotPassword from "../components/LoginForm/ForgotPassword";
 import {FaFacebookF, FaGoogle} from "react-icons/fa6";
 
 
-function LoginPage() {
+function Login() {
     return (
         <div className={"container-fluid"}>
             <div className={"row justify-content-center"}>
@@ -35,4 +35,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default Login;

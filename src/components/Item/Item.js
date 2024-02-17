@@ -1,25 +1,29 @@
 import React from "react";
+import {GoDotFill} from "react-icons/go";
 
-function Item({title, text, image, url}){
+function Item({title, content, image, author, time, category, readTime}) {
+    const topMetaElement = (elementOne, elementTwo) => {
+        if (!elementOne || !elementTwo) {
+            return <small style={{color: " #a6a6a6"}}>{elementOne} {elementTwo}</small>
+        } else {
+            return <small style={{color: " #a6a6a6"}}>{elementOne} <GoDotFill/> {elementTwo}</small>
+        }
+    }
     return (
 
-            <div className={"col-sm-12 col-md-6 col-lg-4"} style={{
-                border: "1px solid #f2f2f2",
-            }}>
-                <div className={"card-header"}>
-
-                    <img className={"w-100 img-fluid"} src={image} alt={title}/>
-                </div>
-                <div className={"card-body"}>
-                    <h3>{title}</h3>
-                    <p>
-                        {text}
-                    </p>
-                </div>
-                <div className="card-footer">
-                    <a href={url} className={"btn btn-primary"}>Read more</a>
-                </div>
-            </div>
+        <div className={"col-xs-12 col-sm-12 col-md-5 col-lg-3 mx-auto"}>
+            <article className={"article"}>
+                <img src={image} alt={title}/>
+                {topMetaElement(author, time)}
+                <h3 className={"text-capitalize"}>{title}</h3>
+                <p>
+                    {content}
+                </p>
+                <footer>
+                    {topMetaElement(category, readTime)}
+                </footer>
+            </article>
+        </div>
 
     );
 }

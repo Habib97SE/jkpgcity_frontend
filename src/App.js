@@ -1,9 +1,11 @@
 import React from "react";
 import './App.css';
 import Layout from "./components/Layout";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Home from "./pages/Home";
+import News from "./pages/News";
+import SingleNews from "./pages/SingleNews";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 function App() {
@@ -12,8 +14,10 @@ function App() {
             <Routes>
                 <Route path={"/"} element={<Layout/>}>
                     <Route path={"/"} element={<Home/>}/>
-                    <Route path={"/login"} element={<LoginPage/>}/>
-                    <Route path={"/register"} element={<RegisterPage/>}/>
+                    <Route path={"/news"} element={<News/>}/>
+                    <Route path={"/news/:id"} element={<SingleNews/>}/>
+                    <Route path={"/login"} element={<Login/>}/>
+                    <Route path={"/register"} element={<Register/>}/>
                 </Route>
             </Routes>
         </Router>

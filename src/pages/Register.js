@@ -3,7 +3,7 @@ import RegisterForm from "../components/RegisterForm/RegisterForm";
 import {FaFacebookF, FaGoogle} from "react-icons/fa6";
 import "./style.css";
 
-function RegisterPage() {
+function Register() {
     return (
         <div className="container-fluid">
             <div className="row" style={{height: "100vh"}}>
@@ -36,4 +36,4 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default Register;
