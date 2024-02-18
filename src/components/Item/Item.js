@@ -12,9 +12,9 @@ function Item({id, title, content, image, author, time, category, readTime}) {
         }
     }
     return (
-        <Link to={`/news/${id}`} className={"col-sm-12 col-md-6 col-lg-3"}
+        <Link to={`/news/${id}`} className={"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"}
               style={{color: "inherit", textDecoration: "none"}}>
-            <div className={"col-xs-12 col-sm-12 mx-auto my-4"}>
+            <div style={{display: "inline-block"}}>
                 <div className={""}>
                     <img
                          className={"img-fluid card-img"} src={image}

@@ -11,6 +11,7 @@ import JonkopingImageThree from "../data/jonkoping3.jpg";
 import Item from "../components/Item/Item";
 import Jumbotron from "../components/Jumbotron/Jumbotron";
 import SocialMedia from "../components/SocialMedia/SocialMedia";
+import Venue from "../components/Venue/Venue";
 
 function Home() {
 
@@ -118,7 +119,7 @@ function Home() {
                     <h2>Latest news</h2>
                     <a href={"/news"}>See all news</a>
                 </div>
-                <div className="col-11 d-flex justify-content-between">
+                <div className="col-11">
                     <Item title={"News 1"}
                           content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
                           image={"https://placehold.co/300"} url={"/news"}
@@ -135,6 +136,14 @@ function Home() {
                           author={"John Doe"} category={<span className={"text-danger"}>Technology</span>} time={"10 minutes ago"} readTime={"5 min read"}
                     />
                 </div>
+            </div>
+            <div className={"col-10"} style={{ margin: "auto"}}>
+                <Venue/>
+                <Venue/>
+                <Venue/>
+                <Venue/>
+                <Venue/>
+                <Venue/>
             </div>
             {/* Open hours section built on Jumbotron */}
             <Jumbotron title={"Open hours"}
