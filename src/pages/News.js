@@ -36,7 +36,7 @@ function News() {
 
     return (
         <div className={"col-9 mx-auto"}>
-            <div className={"row d-flex flex-row justify-content-between"}>
+            <div className={"row d-flex flex-row justify-content-between mx-2 my-2"}>
                 <h1>Latest News around Jönköping</h1>
                 <Filter handleChange={handleFilterChange}/>
                 <Sort handleChange={handleSortChange}/>
@@ -44,7 +44,7 @@ function News() {
             <hr/>
             <div className={"row d-flex flex-wrap"}>
                 {news.map((article, index) => {
-                    return <Item key={index} title={article.title} content={article.body}
+                    return <Item key={index} id={article.id} title={article.title} content={article.body}
                                  image={"https://picsum.photos/200/300"} author={"John Doe"} time={"10 minutes ago"}
                                  category={<span style={{color: "red"}}>{randomCategory()}</span>}
                                  readTime={"5 min read"}/>

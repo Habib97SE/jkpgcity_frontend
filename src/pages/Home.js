@@ -120,14 +120,20 @@ function Home() {
                 </div>
                 <div className="col-11 d-flex justify-content-between">
                     <Item title={"News 1"}
-                          text={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                          image={"https://placehold.co/300"} url={"/news"}/>
+                          content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
+                          image={"https://placehold.co/300"} url={"/news"}
+                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>} time={"10 minutes ago"} readTime={"5 min read"}
+                    />
                     <Item title={"News 1"}
-                          text={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                          image={"https://placehold.co/300"} url={"/news"}/>
+                          content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
+                          image={"https://placehold.co/300"} url={"/news"}
+                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>} time={"10 minutes ago"} readTime={"5 min read"}
+                    />
                     <Item title={"News 1"}
-                          text={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                          image={"https://placehold.co/300"} url={"/news"}/>
+                          content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
+                          image={"https://placehold.co/300"} url={"/news"}
+                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>} time={"10 minutes ago"} readTime={"5 min read"}
+                    />
                 </div>
             </div>
             {/* Open hours section built on Jumbotron */}

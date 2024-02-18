@@ -1,30 +1,34 @@
 import React from "react";
 import {GoDotFill} from "react-icons/go";
+import {Link} from "react-router-dom";
+import "./Item.css";
 
-function Item({title, content, image, author, time, category, readTime}) {
-    const topMetaElement = (elementOne, elementTwo) => {
+function Item({id, title, content, image, author, time, category, readTime}) {
+    const MetaElement = (elementOne, elementTwo) => {
         if (!elementOne || !elementTwo) {
-            return <small style={{color: " #a6a6a6"}}>{elementOne} {elementTwo}</small>
+            return <div style={{color: " #a6a6a6"}} className={"my-2"}>{elementOne} {elementTwo}</div>
         } else {
-            return <small style={{color: " #a6a6a6"}}>{elementOne} <GoDotFill/> {elementTwo}</small>
+            return <div style={{color: " #a6a6a6"}} className={"my-2"}>{elementOne} <GoDotFill/> {elementTwo}</div>
         }
     }
     return (
-
-        <div className={"col-xs-12 col-sm-12 col-md-5 col-lg-3 mx-auto"}>
-            <article className={"article"}>
-                <img src={image} alt={title}/>
-                {topMetaElement(author, time)}
-                <h3 className={"text-capitalize"}>{title}</h3>
-                <p>
-                    {content}
-                </p>
-                <footer>
-                    {topMetaElement(category, readTime)}
-                </footer>
-            </article>
-        </div>
-
+        <Link to={`/news/${id}`} className={"col-sm-12 col-md-6 col-lg-3"}
+              style={{color: "inherit", textDecoration: "none"}}>
+            <div className={"col-xs-12 col-sm-12 mx-auto my-4"}>
+                <div className={""}>
+                    <img
+                         className={"img-fluid card-img"} src={image}
+                         style={{borderRadius: "11px", height: "250px", width: "100%"}}
+                         alt={title}/>
+                    {MetaElement(author, readTime)}
+                    <h5 className={"text-capitalize"}>{title}</h5>
+                    <p>{content}</p>
+                    <footer>
+                        {MetaElement(category, time)}
+                    </footer>
+                </div>
+            </div>
+        </Link>
     );
 }
 
