@@ -1,3 +1,9 @@
+/**
+ * Helper class to provide utility methods for the application
+ * @class Helper
+ * @static - No need to instantiate this class
+ * @exports Helper - The Helper class
+ */
 class Helper {
 
     /**
@@ -6,7 +12,7 @@ class Helper {
      * @returns {number} - The read time in minutes, if less than 1 minute, 1 is returned.
      */
     static calculateReadTime(text) {
-        const wordsPerMinute = 200;
+        const wordsPerMinute = 200; // Average case.
         const noOfWords = text.split(/\s/g).length;
         const minutes = noOfWords / wordsPerMinute;
         return minutes < 1 ? 1 : Math.ceil(minutes);

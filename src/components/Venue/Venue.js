@@ -3,7 +3,10 @@ import "./Venue.css"
 import {IoRestaurantSharp} from "react-icons/io5";
 import {CiShop, CiStar} from "react-icons/ci";
 import {FaStar} from "react-icons/fa";
-import {IoIosCafe} from "react-icons/io";
+import {IoIosBeer, IoIosCafe} from "react-icons/io";
+import {SiHomeassistantcommunitystore} from "react-icons/si";
+import {MdLocalHotel} from "react-icons/md";
+import {GiFruitBowl} from "react-icons/gi";
 
 const starStyle = {
     color: "#FFD700"
@@ -11,22 +14,20 @@ const starStyle = {
 
 const VenueType = ({type}) => {
     switch (type) {
-        case "restaurant":
-            return <span style={{color: "#999"}}>
-                <IoRestaurantSharp/> Restaurant
-            </span>
-        case "cafe":
-            return <span style={{color: "#999"}}>
-                <IoIosCafe/> Cafe
-            </span>
-        case "store":
-            return <span style={{color: "#999"}}>
-                <CiShop/> Store
-            </span>
+        case "Restaurant":
+            return <IoRestaurantSharp/>
+        case "Cafe":
+            return <IoIosCafe/>
+        case "Store":
+            return <CiShop/>
+        case "Grocery store":
+            return <GiFruitBowl/>
+        case "Hotel":
+            return <MdLocalHotel/>
+        case "Bar":
+            return <IoIosBeer/>
         default:
-            return <span style={{color: "#999"}}>
-                <IoRestaurantSharp/> Restaurant
-            </span>
+            return <CiShop/>
     }
 }
 
@@ -35,19 +36,23 @@ const randomVenueType = () => {
     return types[Math.floor(Math.random() * types.length)]
 }
 
-function Venue() {
+function Venue({id, venue}) {
     return (
-        <div className="venue col-sm-12 col-xs-12 col-md-5 col-lg-3 mx-2" style={{display: "inline-block"}}>
+        <div
+            key={id}
+            className="venue col-sm-12 col-xs-12 col-md-5 col-lg-3 mx-2" style={{display: "inline-block"}}>
             <img src={"https://picsum.photos/200/300"} style={{borderRadius: "11px", width: "100%", height: "250px"}}
                  alt={"Jönköping Concert Hall"}/>
             <div>
-                <VenueType type={randomVenueType()}/>
-                <h3>Jönköping Concert Hall</h3>
+                <h3><VenueType type={venue.category}/> {venue.name}</h3>
                 <p>
-                    The Jönköping Concert Hall is a concert hall in Jönköping, Sweden. It was built in 1955 and has a
-                    capacity of 850 people. The concert hall is home to the Jönköping Sinfonietta.
+                    {venue.bio}
                 </p>
                 <footer>
+                    <span></span>
+                    <address>
+                        {venue.address}
+                    </address>
                     {/* Add star reviews */}
                     <p>Rating: <span>
                     <FaStar style={starStyle}/>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Slider from "../components/Slider/Slider";
 import Image2 from "../data/slide2.jpg";
 import Card from "../components/Card/Card";
@@ -12,8 +12,25 @@ import Item from "../components/Item/Item";
 import Jumbotron from "../components/Jumbotron/Jumbotron";
 import SocialMedia from "../components/SocialMedia/SocialMedia";
 import Venue from "../components/Venue/Venue";
+import VenuesController from "../controller/VenuesController";
 
 function Home() {
+
+    const [venues, setVenues] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const venues = await VenuesController();
+                setVenues(venues.data.slice(0, 3));
+                console.log(venues.data)
+            } catch (e) {
+                setVenues([]);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     const images = [
         {
@@ -123,28 +140,29 @@ function Home() {
                     <Item title={"News 1"}
                           content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
                           image={"https://placehold.co/300"} url={"/news"}
-                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>} time={"10 minutes ago"} readTime={"5 min read"}
+                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
+                          time={"10 minutes ago"} readTime={"5 min read"}
                     />
                     <Item title={"News 1"}
                           content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
                           image={"https://placehold.co/300"} url={"/news"}
-                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>} time={"10 minutes ago"} readTime={"5 min read"}
+                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
+                          time={"10 minutes ago"} readTime={"5 min read"}
                     />
                     <Item title={"News 1"}
                           content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
                           image={"https://placehold.co/300"} url={"/news"}
-                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>} time={"10 minutes ago"} readTime={"5 min read"}
+                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
+                          time={"10 minutes ago"} readTime={"5 min read"}
                     />
                 </div>
             </div>
-            <div className={"col-10"} style={{ margin: "auto"}}>
-                <Venue/>
-                <Venue/>
-                <Venue/>
-                <Venue/>
-                <Venue/>
-                <Venue/>
+            <div className="col-11 d-flex flex-wrap justify-content-center" style={{margin: "auto"}}>
+                {/* Add venues */}
+                {venues.length > 0 ? venues.map(venue => <Venue key={venue.id} venue={venue}/>) :
+                    <h2>No venues found</h2>}
             </div>
+
             {/* Open hours section built on Jumbotron */}
             <Jumbotron title={"Open hours"}
                        text={"The open hours varies depending on the shop, restaurant or library. Please check the webpage of\n" +
