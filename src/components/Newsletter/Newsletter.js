@@ -57,6 +57,7 @@ function Newsletter() {
                     placeholder="Email"
                     value={email}
                     onChange={handleEmail}
+                    required={true}
                 />
                 <button className="btn btn-outline-secondary" type="submit">{
                     isLoading ? <div className="spinner-border" role="status">
