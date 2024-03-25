@@ -4,7 +4,7 @@ function NavItem({href, children})
 {
     return (
         <li className="nav-item">
-            <a className="nav-link active" aria-current={"page"} href={href}>{children}</a>
+            <a className="nav-link active" aria-current="page" href={href}>{children}</a>
         </li>
     );
 }

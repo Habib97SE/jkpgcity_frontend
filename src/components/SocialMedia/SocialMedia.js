@@ -14,10 +14,18 @@ function SocialMedia() {
                         Follow us on social media:
                     </h3>
                     <div className={"d-flex flex-row"}>
-                        <Square size={"150px"} color={"#3b5998"} children={<FaFacebook style={{fontSize: "75px"}}/>}/>
-                        <Square size={"150px"} color={"#00acee"} children={<FaTwitter style={{fontSize: "75px"}}/>}/>
-                        <Square size={"150px"} color={"#e4405f"} children={<FaInstagram style={{fontSize: "75px"}}/>}/>
-                        <Square size={"150px"} color={"#0e76a8"} children={<FaLinkedin style={{fontSize: "75px"}}/>}/>
+                        <div className={"d-flex flex-column"}>
+                            <FaFacebook style={{fontSize: "75px", color: "#3b5998"}}/>
+                        </div>
+                        <div className={"d-flex flex-column"}>
+                            <FaTwitter style={{fontSize: "75px", color: "#00acee"}}/>
+                        </div>
+                        <div className={"d-flex flex-column"}>
+                            <FaInstagram style={{fontSize: "75px", color: "#e4405f"}}/>
+                        </div>
+                        <div className={"d-flex flex-column"}>
+                            <FaLinkedin style={{fontSize: "75px", color: "#0e76a8"}}/>
+                        </div>
                     </div>
                 </span>
         </div>

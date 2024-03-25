@@ -27,7 +27,7 @@ function Pagination({totalPages, currentPageUrl, fetchData}) {
 
     const goToPage = (pageNumber) => {
         setCurrentPage(pageNumber);
-        // Fetch data for the selected page
+        // Fetch assets for the selected page
         fetchData(`http://localhost:5000/api/v1/venues?page=${pageNumber}`);
     };
 

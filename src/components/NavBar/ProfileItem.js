@@ -13,10 +13,10 @@ function ProfileItem() {
                     if (response.message === "Success") {
                         setUserData(response.data);
                     } else {
-                        console.error("Error getting user data");
+                        console.error("Error getting user assets");
                     }
                 } catch (error) {
-                    console.error("Error fetching user data:", error);
+                    console.error("Error fetching user assets:", error);
                 }
             }
         };
@@ -26,16 +26,31 @@ function ProfileItem() {
 
     if (!userData) {
         return (
-            <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                   data-bs-toggle="dropdown" aria-expanded="false">
-                    Profile
-                </a>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a className="dropdown-item" href="/login">Login</a></li>
-                    <li><a className="dropdown-item" href="/register">Register</a></li>
-                </ul>
-            </li>
+            <>
+
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img
+                            src="https://i.pravatar.cc/150"
+                            alt="Profile"
+                            style={{
+                                width: "30px", // Adjust if necessary to match other icons' size
+                                height: "30px",
+                                borderRadius: "50%",
+                                objectFit: "cover",
+                                marginRight: "2vw", // Use the same marginRight as other icons if needed for consistency
+                            }}
+
+                        />
+                    </a>
+                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a className="dropdown-item" href="/login">Login</a></li>
+                        <li><a className="dropdown-item" href="/register">Register</a></li>
+                    </ul>
+                </li>
+            </>
+
         );
     }
 
@@ -43,7 +58,7 @@ function ProfileItem() {
         <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                data-bs-toggle="dropdown" aria-expanded="false" style={{
-                   textTransform: "capitalize"
+                textTransform: "capitalize"
             }}>
                 Welcome {userData.firstName + ' ' + userData.lastName}!
             </a>

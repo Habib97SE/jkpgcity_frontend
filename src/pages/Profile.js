@@ -5,18 +5,13 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import ProfileSettings from "../components/Profile/ProfileSettings";
 
 function Profile() {
-    const sidebarItems = [
-        {title: "Profile", url: "/profile"},
-        {title: "Liked news", url: "/profile/liked-news"},
-        {title: "Favorite stores", url: "/profile/favorite-stores"},
-        {title: "Settings", url: "/profile/settings"}
-    ]
+
     return (
         <div className={"container-fluid"}>
             <div className={"row col-10 mx-auto my-3 bg-dark-subtle p-2"}>
                 <h1 className={"mx-2"} style={{color: "#4d5966"}}>Profile</h1>
                 <div className={"col-xs-12 col-sm-12 col-md-5 col-lg-4 col-xl-3"}>
-                    <Sidebar items={sidebarItems}/>
+
                 </div>
                 <div className={"col"}>
                     <Routes>
