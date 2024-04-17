@@ -12,7 +12,7 @@ function Item({id, title, content, image, author, time, category, readTime}) {
         }
     }
     return (
-        <Link to={`/news/${id}`} className={"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3"}
+        <Link to={`/news/${id}`} className={"col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 m-2"}
               style={{color: "inherit", textDecoration: "none"}}>
             <div style={{display: "inline-block"}}>
                 <div className={""}>
@@ -24,7 +24,11 @@ function Item({id, title, content, image, author, time, category, readTime}) {
                     <h5 className={"text-capitalize"}>{title}</h5>
                     <p>{content}</p>
                     <footer>
-                        {MetaElement(category, time)}
+                        <span>
+                            <small className={"text-danger mx-2"}>{category}</small>
+                            <GoDotFill style={{ color: "#a6a6a6"}}/>
+                            <small className={"mx-2"} style={{ color: "#a6a6a6"}}>{time}</small>
+                        </span>
                     </footer>
                 </div>
             </div>

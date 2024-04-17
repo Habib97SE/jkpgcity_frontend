@@ -1,7 +1,7 @@
 import React from "react";
 import "./SocialMedia.css";
 import {FaFacebook, FaTwitter, FaInstagram, FaLinkedin} from "react-icons/fa";
-import Square from "../Square/Square";
+import Square from "../Calendar/Square";
 
 function SocialMedia() {
 

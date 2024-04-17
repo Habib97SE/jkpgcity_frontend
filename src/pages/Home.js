@@ -136,7 +136,7 @@ function Home() {
                     <h2>Latest news</h2>
                     <a href={"/news"}>See all news</a>
                 </div>
-                <div className="col-11">
+                <div className="col-11 d-flex justify-content-between align-content-center">
                     <Item title={"News 1"}
                           content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
                           image={"https://placehold.co/300"} url={"/news"}

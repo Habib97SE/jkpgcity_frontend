@@ -35,7 +35,7 @@ function NavBar() {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{minHeight: "10vh"}}>
             <div className="container-fluid mx-5">
                 {/* Logo */}
-                <a className="navbar-brand" href="/" style={{fontSize: "1.5rem"}}>Jönköping City.</a>
+                <a className="navbar-brand" href="/" style={{fontSize: "1.5rem"}}>JKPG City.</a>
 
                 {/* Navbar Toggler */}
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
