@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react";
-import { useForm} from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import VenuesController from "../../controller/VenuesController";
+import { useParams } from "react-router-dom";
 
 const schema = yup.object().shape({
     name: yup.string().required("Name is required").min(5, "Name must be at least 5 characters").max(100, "Name must be at most 100 characters"),
@@ -15,35 +16,58 @@ const schema = yup.object().shape({
 });
 
 
-function EditVenue (id) {
+function EditVenue() {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     });
 
-    const [category, setCategory] = useState("");
-    const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [website, setWebsite] = useState("");
-    const [bio, setBio] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [message, setMessage] = useState("");
+    const [venue, setVenue] = useState({
+        name: "",
+        venueCategoryId: "",
+        address: "",
+        phone: "",
+        email: "",
+        website: "",
+        bio: "",
+    });
+
+
+    // Get the id from the URL
+    const id = useParams().id;
+
     const [categories, setCategories] = useState([]);
 
-    const onSubmit = (data) => {
-        VenuesController.update(id, data).then(r => console.log(r)).catch(e => console.error(e));
+    const onSubmit = async (data) => {
+        setLoading(true);
+        const result = await VenuesController.update(id, data);
+        if (result.message === "Success") {
+            setMessage("Venue updated successfully");
+            setError(false);
+            setSuccess(true);
+        }
+        setLoading(false);
     }
 
     useEffect(() => {
-        VenuesController.find(id).then(venue => {
-            setCategory(venue.category);
-            setName(venue.name);
-            setAddress(venue.address);
-            setPhone(venue.phone);
-            setEmail(venue.email);
-            setWebsite(venue.website);
-            setBio(venue.bio);
-            setCategories(VenuesController.getCategories())
-        }).catch(e => console.error(e));
+        const fetchData = async () => {
+            try {
+                const categoriesResponse = await VenuesController.getCategories();
+                const categoryNames = categoriesResponse.map(category => category);
+                setCategories(categoryNames);
+                const venueResponse = await VenuesController.find(id);
+                setVenue(venueResponse.data.data);
+
+            } catch (error) {
+                setError(true);
+                setMessage("An error occurred. Please try again");
+                console.error(error);
+            }
+        };
+        fetchData();
     }, [id]);
 
     return (
@@ -56,102 +80,104 @@ function EditVenue (id) {
                 borderRadius: "10px"
             }}
         >
+
             <h1>Edit Venue</h1>
-            <p>Edit venue</p>
+            {error && <div className="alert alert-danger">{message}</div>}
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-group my-4">
-                    <label htmlFor={"name"}>Name</label>
+                <div className="form-group">
+                    <label htmlFor="name">Name</label>
                     <input
-                        {...register("name")}
-                        name={"name"}
-                        type={"text"}
+                        type="text"
                         className={`form-control ${errors.name ? "is-invalid" : ""}`}
-                        placeholder={"Name"}
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        id="name"
+                        placeholder="Enter name"
+                        value={venue.name}
+                        onChange={(e) => setVenue({ ...venue, name: e.target.value })}
+                        {...register("name")}
                     />
-                    {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
+                    <div className="invalid-feedback">{errors.name?.message}</div>
                 </div>
-                <div className="form-group my-4">
-                    <label htmlFor={"category"}>Category</label>
+                <div className="form-group">
+                    <label htmlFor="category">Category</label>
                     <select
+                        className={`form-select ${errors.category ? "is-invalid" : ""}`}
+                        id="category"
+                        name="venueCategoryId"
                         {...register("category")}
-                        name={"category"}
-                        className={`form-control ${errors.category ? "is-invalid" : ""}`}
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
                     >
-                        <option value={""}>Select a category</option>
-                        {categories.map(category => (
-                            <option key={category} value={category}>{category}</option>
+                        <option value="">Select category</option>
+                        {categories.map((category, index) => (
+                            <option key={index} value={category.venueCategoryId}>{category.name}</option>
                         ))}
                     </select>
+                    <div className="invalid-feedback">{errors.category?.message}</div>
                 </div>
-                <div className="form-group my-4">
-                    <label htmlFor={"address"}>Address</label>
+                <div className="form-group">
+                    <label htmlFor="address">Address</label>
                     <input
-                        {...register("address")}
-                        name={"address"}
-                        type={"text"}
+                        type="text"
                         className={`form-control ${errors.address ? "is-invalid" : ""}`}
-                        placeholder={"Address"}
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        id="address"
+                        placeholder="Enter address"
+                        defaultValue={venue.address}
+                        {...register("address")}
                     />
-                    {errors.address && <div className="invalid-feedback">{errors.address.message}</div>}
+                    <div className="invalid-feedback">{errors.address?.message}</div>
                 </div>
-                <div className="form-group my-4">
-                    <label htmlFor={"phone"}>Phone</label>
+                <div className="form-group">
+                    <label htmlFor="phone">Phone</label>
                     <input
-                        {...register("phone")}
-                        name={"phone"}
-                        type={"text"}
+                        type="text"
                         className={`form-control ${errors.phone ? "is-invalid" : ""}`}
-                        placeholder={"Phone"}
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        id="phone"
+                        placeholder="Enter phone"
+                        defaultValue={venue.phone}
+                        {...register("phone")}
                     />
-                    {errors.phone && <div className="invalid-feedback">{errors.phone.message}</div>}
+                    <div className="invalid-feedback">{errors.phone?.message}</div>
                 </div>
-                <div className="form-group my-4">
-                    <label htmlFor={"email"}>Email</label>
+                <div className="form-group">
+                    <label htmlFor="email">Email</label>
                     <input
-                        {...register("email")}
-                        name={"email"}
-                        type={"email"}
+                        type="text"
                         className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                        placeholder={"Email"}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        id="email"
+                        placeholder="Enter email"
+                        defaultValue={venue.email}
+                        {...register("email")}
                     />
-                    {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
+                    <div className="invalid-feedback">{errors.email?.message}</div>
                 </div>
-                <div className="form-group my-4">
-                    <label htmlFor={"website"}>Website</label>
+                <div className="form-group">
+                    <label htmlFor="website">Website</label>
                     <input
-                        {...register("website")}
-                        name={"website"}
-                        type={"text"}
+                        type="text"
                         className={`form-control ${errors.website ? "is-invalid" : ""}`}
-                        placeholder={"Website"}
-                        value={website}
-                        onChange={(e) => setWebsite(e.target.value)}
+                        id="website"
+                        placeholder="Enter website"
+                        defaultValue={venue.website}
+                        {...register("website")}
                     />
-                    {errors.website && <div className="invalid-feedback">{errors.website.message}</div>}
+                    <div className="invalid-feedback">{errors.website?.message}</div>
                 </div>
-                <div className="form-group my-4">
-                    <label htmlFor={"bio"}>Bio</label>
+                <div className="form-group">
+                    <label htmlFor="bio">Bio</label>
                     <textarea
-                        {...register("bio")}
-                        name={"bio"}
                         className={`form-control ${errors.bio ? "is-invalid" : ""}`}
-                        placeholder={"Bio"}
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
+                        id="bio"
+                        placeholder="Enter bio"
+                        defaultValue={venue.bio}
+                        {...register("bio")}
                     />
-                    {errors.bio && <div className="invalid-feedback">{errors.bio.message}</div>}
+                    <div className="invalid-feedback">{errors.bio?.message}</div>
                 </div>
-                <button type={"submit"} className={"btn btn-primary"}>Submit</button>
+                <button type="submit" className="btn btn-primary m-2">
+                    {loading ? <div className="spinner-border text-light" role="status">
+                        <span className="sr-only"></span>
+                    </div> : "Update"}
+                </button>
+                {success && <div className="alert alert-success">{message}</div>}
+                {error && <div className="alert alert-danger">{message}</div>}
             </form>
         </div>
     );

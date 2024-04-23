@@ -5,12 +5,27 @@ class Venues {
     static baseUrl = "http://localhost:5001/api/v1/venues";
 
 
-    static async all(page = 1) {
-        let endpoint = "http://localhost:5001/api/v1/venues";
+    static async all(page = 1, pageSize = 10) {
 
-        if (page > 1) {
-            endpoint = `http://localhost:5001/api/v1/venues?page=${page}`;
+        if (pageSize > 50 || pageSize < 1) {
+            return {
+                message: "Invalid page size. Page size must be between 1 and 50.",
+                data: []
+            };
         }
+
+        if (page < 1) {
+            return {
+                message: "Invalid page number. Page number must be greater than 0.",
+                data: []
+            };
+        }
+
+
+        let endpoint = "http://localhost:5001/api/v1/venues";
+        endpoint = `${endpoint}?page=${page}&pageSize=${pageSize}`;
+
+
 
         const headers = {
             "Content-Type": "application/json",
@@ -60,6 +75,20 @@ class Venues {
         };
         const endpoint = `${this.baseUrl}/${id}`;
         return await axios.delete(endpoint, { headers: headers });
+    }
+
+    /**
+     * Search for venues
+     * @param {String} searchValue 
+     * @returns 
+     */
+    static async search(searchValue) {
+        const headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "true"
+        };
+        const endpoint = `${this.baseUrl}/search?search=${searchValue}`;
+        return await axios.get(endpoint, { headers: headers });
     }
 
     static async categories() {

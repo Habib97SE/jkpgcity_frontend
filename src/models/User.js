@@ -11,9 +11,28 @@ class User {
         }
         // add credentials include to the request
         // send the cookie with the request
-        const user = await axios.get(endpoint, {headers, withCredentials: true});
-
+        const user = await axios.get(endpoint, { headers: headers });
         return user.data;
+    }
+
+    static async create(data) {
+        const headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "true",
+        }
+        console.log("Creating user");
+        return axios.post(`http://localhost:5001/api/v1/users`, data, { headers: headers });
+    }
+
+
+
+    static find() {
+        const headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "true",
+        }
+
+        return axios.get(`http://localhost:5001/api/v1/users`, { headers: headers });
     }
 
     static findByIdAndUpdate(id, data) {
@@ -22,7 +41,7 @@ class User {
             "Access-Control-Allow-Origin": "true",
         }
 
-        return axios.put(`http://localhost:5000/api/v1/users/${id}`, data, {headers, withCredentials: true});
+        return axios.put(`http://localhost:5001/api/v1/users/${id}`, data, { headers: headers });
     }
 
     static findById(id) {
@@ -31,7 +50,25 @@ class User {
             "Access-Control-Allow-Origin": "true",
         }
 
-        return axios.get(`http://localhost:5000/api/v1/users/${id}`, {headers, withCredentials: true});
+        return axios.get(`http://localhost:5001/api/v1/users/${id}`, { headers: headers });
+    }
+
+    static async update(id, data) {
+        const headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "true",
+        }
+
+        return axios.put(`http://localhost:5001/api/v1/users/${id}`, data, { headers: headers });
+    }
+
+    static async getRoles() {
+        const headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "true",
+        }
+
+        return await axios.get(`http://localhost:5001/api/v1/users/roles`, { headers: headers });
     }
 }
 

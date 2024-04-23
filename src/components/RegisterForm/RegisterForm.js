@@ -1,10 +1,10 @@
-import React, {useState} from "react";
-import {useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
+import React, { useState } from "react";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import RegisterController from "../../controller/RegisterController";
-import {FaEye, FaEyeSlash} from "react-icons/fa";
-import {MdEmail} from "react-icons/md";
+import UserController from "../../controller/UserController";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 
 
 const validationSchema = yup.object().shape({
@@ -17,41 +17,46 @@ const validationSchema = yup.object().shape({
 });
 
 function RegisterForm() {
-    const {register, handleSubmit, formState: {errors}} = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationSchema)
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
-    const {
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        showPassword,
-        handleFirstName,
-        handleLastName,
-        handleEmail,
-        handlePassword,
-        handleConfirmPassword,
-        handleShowPassword,
-        handleOnSubmit
-    } = RegisterController();
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [message, setMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [user, setUser] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        agreement: false
+    });
 
+    /**
+     *  Handle show password, toggle between text and password 
+     */
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    }
 
     const onSubmit = async (data) => {
+        console.log("onSubmit", data);
         setIsLoading(true);
-        const response = await handleOnSubmit(data);
-        if (response.status === 201) {
-            setError("");
-            setIsLoading(false);
-            window.location.href = "/login";
+        const result = await UserController.create(data);
+        if (result.message === "Success") {
+            setError(false);
+            setSuccess(true);
+            setMessage("User registered successfully");
             setIsLoading(false);
         } else {
-            setError(response.data.message);
             setIsLoading(false);
+            setError(true);
+            setSuccess(false);
+            setMessage(`Error: ${result.message}`);
+            setError(result.data);
         }
-        setIsLoading(false);
     }
 
 
@@ -61,37 +66,40 @@ function RegisterForm() {
                 <label htmlFor={"first-name"}>First name</label>
                 <input
                     {...register("firstName")}
-                    onChange={handleFirstName}
+                    onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                     type={"text"}
                     className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
                     id={"first-name"}
-                    value={firstName}
-                    placeholder={"John"}/>
+                    value={user.firstName}
+                    placeholder={"John"} />
                 {errors.firstName && <p className="error text-danger">{errors.firstName.message}</p>}
             </div>
             <div className={"form-group"}>
                 <label htmlFor={"last-name"}>Last name</label>
                 <input
                     {...register("lastName")}
-                    onChange={handleLastName}
+                    onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                     type={"text"}
                     className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
                     id={"last-name"}
-                    value={lastName}
-                    placeholder={"Doe"}/>
+                    value={user.lastName}
+                    placeholder={"Doe"} />
                 {errors.lastName && <p className="error text-danger">{errors.lastName.message}</p>}
             </div>
             <div className={"form-group"}>
                 <label htmlFor={"email"}>Email address</label>
                 <div className={"input-group"}>
                     <span className={"btn btn-outline-secondary"}>
-                        <MdEmail/>
+                        <MdEmail />
                     </span>
-                    <input {...register("email")} onChange={handleEmail} type={"email"}
-                           className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                           id={"email"}
-                           value={email}
-                           placeholder={"Enter email"}/>
+                    <input
+                        {...register("email")}
+                        type={"email"}
+                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                        id={"email"}
+                        value={user.email}
+                        onChange={(e) => setUser({ ...user, email: e.target.value })}
+                        placeholder={"Enter email"} />
                 </div>
                 {errors.email && <p className="error text-danger">{errors.email.message}</p>}
             </div>
@@ -103,8 +111,8 @@ function RegisterForm() {
                         type={showPassword ? 'text' : 'password'}
                         className={`form-control ${errors.password ? "is-invalid" : ""}`}
                         id="password"
-                        value={password}
-                        onChange={handlePassword}
+                        value={user.password}
+                        onChange={(e) => setUser({ ...user, password: e.target.value })}
                         placeholder={"Password"}
                     />
                     <button
@@ -112,7 +120,7 @@ function RegisterForm() {
                         className="btn btn-outline-secondary"
                         onClick={handleShowPassword}
                     >
-                        {showPassword ? <FaEye/> : <FaEyeSlash/>}
+                        {showPassword ? <FaEye /> : <FaEyeSlash />}
                     </button>
                 </div>
                 {errors.password && <p className="error text-danger">{errors.password.message}</p>}
@@ -120,20 +128,24 @@ function RegisterForm() {
             <div className={"form-group"}>
                 <label htmlFor={"confirm-password"}>Confirm Password</label>
                 <input {...register("confirmPassword")}
-                       onChange={handleConfirmPassword}
-                       type={"password"}
-                       className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
-                       id={"confirm-password"}
-                       value={confirmPassword}
-                       placeholder={"Confirm Password"}/>
+                    onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}
+                    type={"password"}
+                    className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
+                    id={"confirm-password"}
+                    value={user.confirmPassword}
+                    placeholder={"Confirm Password"} />
                 {errors.confirmPassword && <p className="error text-danger">{errors.confirmPassword.message}</p>}
             </div>
             <div className="form-group">
                 {/* Add checkbox and label for agreement */}
-                <div className="form-check">
-                    <input type="checkbox" {...register("agreement")}
-                           className={`form-check-input ${errors.agreement ? "is-invalid" : ""}`}
-                           id="agreement"/>
+                <div className="form-check m-2">
+                    <input
+                        {...register("agreement")}
+                        type="checkbox"
+                        className={`form-check-input ${errors.agreement ? "is-invalid" : ""}`}
+                        id="agreement"
+                        required={true}
+                    />
                     <label className="form-check-label" htmlFor="agreement">I agree to the terms and conditions</label>
                     {errors.agreement && <p className="error text-danger">{errors.agreement.message}</p>}
                 </div>
@@ -143,7 +155,8 @@ function RegisterForm() {
                     <span className="sr-only"></span>
                 </div> : "Register"
             }</button>
-            {error && <p className="error text-danger">{error}</p>}
+            {error && <div className="alert alert-danger">{message}</div>}
+            {success && <div className="alert alert-success">{message}</div>}
 
         </form>
     );

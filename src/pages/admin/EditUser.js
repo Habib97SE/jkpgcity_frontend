@@ -1,58 +1,57 @@
-import React, {useEffect, useState} from "react";
-import { useForm} from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import UserController from "../../controller/UserController";
+import { useParams } from "react-router-dom";
 
 const schema = yup.object().shape({
     firstName: yup.string().required("First Name is required").min(2, "First Name must be at least 2 characters").max(100, "First Name must be at most 100 characters"),
     lastName: yup.string().required("Last Name is required").min(2, "Last Name must be at least 2 characters").max(100, "Last Name must be at most 100 characters"),
     email: yup.string().required("Email is required").email("Email must be a valid email"),
-    // password should be at least 8 characters, and should contain at least one uppercase letter, one lowercase letter, one number, and one special character
-    password: yup.string().required("Password is required").matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, "Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character"),
-    // password confirmation should match the password
-    passwordConfirmation: yup.string().required("Password Confirmation is required").oneOf([yup.ref('password'), null], 'Passwords must match'),
     role: yup.string().required("Role is required"),
     phone: yup.string().required("Phone is required").matches(/^[0-9]{10}$/, "Phone must be a valid phone number"),
-    bio: yup.string().required("Bio is required").min(20, "Bio must be at least 20 characters").max(500, "Bio must be at most 500 characters"),
+    bio: yup.string().max(500, "Bio must be at most 500 characters"),
     facebook: yup.string().url("Facebook must be a valid URL"),
     twitter: yup.string().url("Twitter must be a valid URL"),
     instagram: yup.string().url("Instagram must be a valid URL"),
 });
 
-function EditUser({id}) {
+function EditUser() {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     });
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [role, setRole] = useState("");
-    const [phone, setPhone] = useState("");
-    const [bio, setBio] = useState("");
-    const [facebook, setFacebook] = useState("");
-    const [twitter, setTwitter] = useState("");
-    const [instagram, setInstagram] = useState("");
+    const { id } = useParams();
 
-    const onSubmit = (data) => {
-        UserController.update(id, data).then(r => console.log(r)).catch(e => console.error(e));
+    const [user, setUser] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        role: "",
+        phone: "",
+        bio: "",
+        facebook: "",
+        twitter: "",
+        instagram: "",
+    });
+
+    const [roles, setRoles] = useState([]);
+
+    const onSubmit = async (data) => {
+        const result = await UserController.update(id, data);
     }
 
     useEffect(() => {
-        UserController.show(id).then(r => {
-            setFirstName(r.data.firstName);
-            setLastName(r.data.lastName);
-            setEmail(r.data.email);
-            setRole(r.data.role);
-            setPhone(r.data.phone);
-            setBio(r.data.bio);
-            setFacebook(r.data.facebook);
-            setTwitter(r.data.twitter);
-            setInstagram(r.data.instagram);
-        }).catch(e => console.error(e));
+        const fetchData = async () => {
+            const response = await UserController.get(id);
+            if (response != null) {
+                setUser(response);
+            }
+            const roles = await UserController.getRoles();
+            setRoles(roles);
+        }
+        fetchData();
     }, [id]);
 
     return (
@@ -76,8 +75,8 @@ function EditUser({id}) {
                         type={"text"}
                         className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
                         placeholder={"First Name"}
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={user.firstName}
+                        onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                     />
                     {errors.firstName && <p className={"text-danger"}>{errors.firstName.message}</p>}
                 </div>
@@ -89,8 +88,8 @@ function EditUser({id}) {
                         type={"text"}
                         className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
                         placeholder={"Last Name"}
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        value={user.lastName}
+                        onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                     />
                     {errors.lastName && <p className={"text-danger"}>{errors.lastName.message}</p>}
                 </div>
@@ -102,49 +101,30 @@ function EditUser({id}) {
                         type={"email"}
                         className={`form-control ${errors.email ? "is-invalid" : ""}`}
                         placeholder={"Email"}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={user.email}
+                        onChange={(e) => setUser({ ...user, email: e.target.value })}
                     />
                     {errors.email && <p className={"text-danger"}>{errors.email.message}</p>}
                 </div>
-                <div className="form-group my-4">
-                    <label htmlFor={"password"}>Password</label>
-                    <input
-                        {...register("password")}
-                        name={"password"}
-                        type={"password"}
-                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
-                        placeholder={"Password"}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {errors.password && <p className={"text-danger"}>{errors.password.message}</p>}
-                </div>
-                <div className="form-group my-4">
-                    <label htmlFor={"passwordConfirmation"}>Password Confirmation</label>
-                    <input
-                        {...register("passwordConfirmation")}
-                        name={"passwordConfirmation"}
-                        type={"password"}
-                        className={`form-control ${errors.passwordConfirmation ? "is-invalid" : ""}`}
-                        placeholder={"Password Confirmation"}
-                        value={passwordConfirmation}
-                        onChange={(e) => setPasswordConfirmation(e.target.value)}
-                    />
-                    {errors.passwordConfirmation && <p className={"text-danger"}>{errors.passwordConfirmation.message}</p>}
-                </div>
+
                 <div className="form-group my-4">
                     <label htmlFor={"role"}>Role</label>
                     <select
                         {...register("role")}
                         name={"role"}
-                        className={`form-control ${errors.role ? "is-invalid" : ""}`}
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
+                        className={`form-select ${errors.role ? "is-invalid" : ""}`}
+                        value={user.role}
+                        onChange={(e) => setUser({ ...user, role: e.target.value })}
                     >
                         <option value={""}>Select Role</option>
-                        <option value={"admin"}>Admin</option>
-                        <option value={"user"}>User</option>
+                        {roles.map(role => (
+                            <option
+                                style={{ textTransform: "capitalize" }}
+                                key={role.roleId}
+                                value={role.roleId}>
+                                {role.roleName}
+                            </option>
+                        ))}
                     </select>
                     {errors.role && <p className={"text-danger"}>{errors.role.message}</p>}
                 </div>
@@ -156,8 +136,8 @@ function EditUser({id}) {
                         type={"text"}
                         className={`form-control ${errors.phone ? "is-invalid" : ""}`}
                         placeholder={"Phone"}
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        value={user.phone}
+                        onChange={(e) => setUser({ ...user, phone: e.target.value })}
                     />
                     {errors.phone && <p className={"text-danger"}>{errors.phone.message}</p>}
                 </div>
@@ -168,8 +148,8 @@ function EditUser({id}) {
                         name={"bio"}
                         className={`form-control ${errors.bio ? "is-invalid" : ""}`}
                         placeholder={"Bio"}
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
+                        value={user.bio}
+                        onChange={(e) => setUser({ ...user, bio: e.target.value })}
                     />
                     {errors.bio && <p className={"text-danger"}>{errors.bio.message}</p>}
                 </div>
@@ -181,8 +161,8 @@ function EditUser({id}) {
                         type={"text"}
                         className={`form-control ${errors.facebook ? "is-invalid" : ""}`}
                         placeholder={"Facebook"}
-                        value={facebook}
-                        onChange={(e) => setFacebook(e.target.value)}
+                        value={user.facebook}
+                        onChange={(e) => setUser({ ...user, facebook: e.target.value })}
                     />
                     {errors.facebook && <p className={"text-danger"}>{errors.facebook.message}</p>}
                 </div>
@@ -194,8 +174,8 @@ function EditUser({id}) {
                         type={"text"}
                         className={`form-control ${errors.twitter ? "is-invalid" : ""}`}
                         placeholder={"Twitter"}
-                        value={twitter}
-                        onChange={(e) => setTwitter(e.target.value)}
+                        value={user.twitter}
+                        onChange={(e) => setUser({ ...user, twitter: e.target.value })}
                     />
                     {errors.twitter && <p className={"text-danger"}>{errors.twitter.message}</p>}
                 </div>
@@ -207,8 +187,8 @@ function EditUser({id}) {
                         type={"text"}
                         className={`form-control ${errors.instagram ? "is-invalid" : ""}`}
                         placeholder={"Instagram"}
-                        value={instagram}
-                        onChange={(e) => setInstagram(e.target.value)}
+                        value={user.instagram}
+                        onChange={(e) => setUser({ ...user, instagram: e.target.value })}
                     />
                     {errors.instagram && <p className={"text-danger"}>{errors.instagram.message}</p>}
                 </div>

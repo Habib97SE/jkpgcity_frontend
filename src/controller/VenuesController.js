@@ -2,20 +2,25 @@ import Venues from "../models/Venues";
 
 
 class VenuesController {
-    static async all() {
-
-        const result = await Venues.all();
+    static async all(filter = {}, sort = {}) {
+        const page = filter.page || 1;
+        const pageSize = filter.pageSize || 10;
+        if (pageSize > 50 || pageSize < 1) {
+            return {
+                message: "Invalid page size. Page size must be between 1 and 50.",
+                data: []
+            };
+        }
+        const result = await Venues.all(page, pageSize);
         return result.data;
     }
 
     static async find(id) {
-        return await Venues.findById(id);
+        return await Venues.find(id);
     }
 
     static async create(data) {
-        console.log(data);
         const result = await Venues.create(data);
-        console.log(result.data);
         return result.data;
     }
 
@@ -25,6 +30,21 @@ class VenuesController {
 
     static async delete(id) {
         return await Venues.findByIdAndDelete(id);
+    }
+
+    static async search(searchValue) {
+        console.log("searchValue: " + searchValue);
+        // safeguard against empty search value and other invalid values that can be used for injections and other types of attacks
+        if (!searchValue) {
+            return [];
+        }
+
+        const result = await Venues.search(searchValue);
+        console.log(result.data);
+        if (result.data.message === "Success") {
+            return result.data.data;
+        }
+        return [];
     }
 
 
