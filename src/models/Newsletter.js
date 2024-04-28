@@ -24,8 +24,6 @@ class Newsletter {
         };
         return axios.delete(endpoint, data, {headers: headers});
     }
-
-
 }
 
 export default Newsletter;
