@@ -1,27 +1,58 @@
-import React, {useState, useEffect} from "react";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import TodoController from "../../controller/TodoController";
 
 const schema = yup.object().shape({
     title: yup.string().required("Title is required"),
     description: yup.string().required("Description is required")
 });
 
-function TodoModal({show, setShow, year, month, day}) {
+/**
+ * TodoModal is responsible for displaying a modal to add a new todo for a specific day. 
+ * The day is passed in as parameters and the modal is displayed when the show prop is true.
+ * @param {Object} param0 
+ * @returns 
+ */
+function TodoModal({ show, setShow, year, month, day }) {
     month = parseInt(month);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [message, setMessage] = useState("");
     // Removed the show state management from here and use props instead
     const [todos, setTodos] = useState([]);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
+
+
     const onSubmit = (data) => {
-        setTodos([...todos, { id: todos.length + 1, title: data.title, description: data.description }]);
-        setShow(false); // This still works because setShow is now passed from the parent
-    };
+        const todo = {
+            title: data.title,
+            description: data.description,
+            userId: 2,
+            dueDate: `${year}-${month}-${day}`,
+            status: 0,
+            priority: "high",
+        };
+        const result = TodoController.addTodo(todo);
+        if (result.message === "Success") {
+            setError(false);
+            setSuccess(true);
+            setMessage("Todo added successfully");
+        }
+        // If there is an error, show the error message
+        setError(true);
+        setSuccess(false);
+        setMessage("An error occurred. Please try again");
+
+    }
+
+
 
     if (!show) return null;
 
@@ -61,6 +92,8 @@ function TodoModal({show, setShow, year, month, day}) {
                         <button className={"btn btn-secondary m-3 px-5 py-2"} onClick={() => setShow(false)}>Close
                         </button>
                     </form>
+                    {error && <div className="alert alert-danger">{message}</div>}
+                    {success && <div className="alert alert-success">{message}</div>}
                 </div>
             </div>
         </div>

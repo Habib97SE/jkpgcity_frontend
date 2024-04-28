@@ -1,14 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Square from "./Square";
 import CustomDate from "../../utils/CustomDate";
-import {FaPlusCircle} from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
 import Today from "./Today";
 
 
-const weekDayTitlesStyle = {
 
+
+const weekDayTitlesStyle = {
     textAlign: "center",
-    backgroundColor: "lightgrey",
+    backgroundColor: "black",
     borderRadius: "10px",
     padding: "15px 8px",
     display: "flex",
@@ -19,7 +20,7 @@ const weekDayTitlesStyle = {
     color: "#fff"
 }
 
-function Calendar({ year, month}) {
+function Calendar({ year, month }) {
     month = parseInt(month);
     const [days, setDays] = useState([]);
 
@@ -56,11 +57,11 @@ function Calendar({ year, month}) {
                         <h1>{CustomDate.getMonthName(month)} {year}</h1>
                         <p>
                             To add a new todo, click on a day and then click the{" "}<FaPlusCircle color={"green"}
-                                                                                                   size={20}/> icon.
+                                size={20} /> icon.
                         </p>
                     </div>
                     <div className="col-6">
-                        <Today year={2024} month={4} day={1}/>
+                        <Today year={2024} month={4} day={1} />
                     </div>
                 </div>
             </div>
@@ -81,7 +82,7 @@ function Calendar({ year, month}) {
 
                 {days.map((day, index) => (
                     day ? (
-                        <Square key={index} year={year} month={month} day={day.getDate()} size={150} color={"Lightgreen"}>
+                        <Square key={index} year={year} month={month} day={day.getDate()} size={150} color={"lightgreen"}>
                             {day.getDate()}
                         </Square>
                     ) : (
