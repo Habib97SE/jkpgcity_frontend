@@ -1,19 +1,25 @@
-import React from "react";
-import {Outlet} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import SettingsController from "../controller/SettingsController";
 
 function Layout() {
+
+
+
+
+
     return (
         <>
             <header>
-                <Header/>
+                <Header />
             </header>
             <main>
-                <Outlet/>
+                <Outlet />
             </main>
             <footer>
-                <Footer/>
+                <Footer />
             </footer>
         </>
     );

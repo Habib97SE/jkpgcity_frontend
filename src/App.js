@@ -7,7 +7,7 @@ import { Contact, About, Home, News, SingleNews, Login, Register, Venues, Profil
 // pages for admin side
 import {
     Dashboard, CalendarPage, ShowUsers, NewUser, EditUser, ShowVenues, NewVenue, EditVenue, NewVenueCategory,
-    EditVenueCategory, ShowVenueCategories, NewsPage, NewNews, EditNews,
+    EditVenueCategory, ShowVenueCategories, NewsPage, NewNews, EditNews, ShowSettings
 } from "./pages/admin";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -48,6 +48,8 @@ function App() {
                     <Route path={"news"} element={<NewsPage />} />
                     <Route path={"news/new"} element={<NewNews />} />
                     <Route path={"news/:id"} element={<EditNews />} />
+
+                    <Route path={"settings"} element={<ShowSettings />} />
 
                 </Route>
                 <Route path={"*"} element={<h1>Not Found</h1>} />{/* 404 page */}

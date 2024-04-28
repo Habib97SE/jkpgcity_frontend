@@ -26,7 +26,6 @@ class Venues {
         endpoint = `${endpoint}?page=${page}&pageSize=${pageSize}`;
 
 
-
         const headers = {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "true"

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "../components/Slider/Slider";
 import Image2 from "../assets/images/slide2.jpg";
 import Card from "../components/Card/Card";
@@ -13,6 +13,7 @@ import Jumbotron from "../components/Jumbotron/Jumbotron";
 import SocialMedia from "../components/SocialMedia/SocialMedia";
 import Venue from "../components/Venue/Venue";
 import VenuesController from "../controller/VenuesController";
+import SettingsController from "../controller/SettingsController";
 
 function Home() {
 
@@ -21,9 +22,10 @@ function Home() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const venues = await VenuesController();
-                setVenues(venues.data.slice(0, 3));
-                console.log(venues.data)
+                const venues = await VenuesController.all();
+                setVenues(venues.data);
+                const homepageSettings = await SettingsController.getHomePageSettings();
+                document.title = homepageSettings.title;
             } catch (e) {
                 setVenues([]);
             }
@@ -46,7 +48,7 @@ function Home() {
                     type: "image",
                     url: Image2
                 }
-            ]}/>
+            ]} />
             <div className="col-sm-12 col-md-8 col-lg-6 col-xl-5 mx-auto my-4 py-3" style={{
                 backgroundColor: "#f2f2f2",
             }}>
@@ -73,28 +75,28 @@ function Home() {
                         {
                             type: "html",
                             content: <Card title={"Shopping"} image={SalesImage}
-                                           text={"You can find almost all famous brands here including HM, Zara and etc."}
-                                           additionalStyle={{
-                                               backgroundColor: "#ff4dd2",
-                                               color: "#fff"
-                                           }}/>
+                                text={"You can find almost all famous brands here including HM, Zara and etc."}
+                                additionalStyle={{
+                                    backgroundColor: "#ff4dd2",
+                                    color: "#fff"
+                                }} />
                         },
                         {
                             type: "html",
                             content: <Card title={"Restaurants and coffee!"} image={RestaurantImage}
-                                           text={"There is at least one restaurant for each taste."} additionalStyle={{
-                                backgroundColor: "#ff3333",
-                                color: "#fff"
-                            }} imageInLeft={false}/>
+                                text={"There is at least one restaurant for each taste."} additionalStyle={{
+                                    backgroundColor: "#ff3333",
+                                    color: "#fff"
+                                }} imageInLeft={false} />
                         },
                         {
                             type: "html",
                             content: <Card title={"Read and borrow books!"} image={LibraryImage}
-                                           text={"At Jönköping library, you can read books, newspapers or borrow a book for up to 30 days."}
-                                           additionalStyle={{
-                                               backgroundColor: "#1a8cff",
-                                               color: "#fff"
-                                           }}/>
+                                text={"At Jönköping library, you can read books, newspapers or borrow a book for up to 30 days."}
+                                additionalStyle={{
+                                    backgroundColor: "#1a8cff",
+                                    color: "#fff"
+                                }} />
                         }
                     ]}
                 />
@@ -125,7 +127,7 @@ function Home() {
                         type: "image",
                         url: JonkopingImageThree
                     }
-                ]}/>
+                ]} />
             </div>
 
             <div className={"col-8 p-5 card-text mx-auto"}>
@@ -138,39 +140,40 @@ function Home() {
                 </div>
                 <div className="col-11 d-flex justify-content-between align-content-center">
                     <Item title={"News 1"}
-                          content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                          image={"https://placehold.co/300"} url={"/news"}
-                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
-                          time={"10 minutes ago"} readTime={"5 min read"}
+                        content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
+                        image={"https://placehold.co/300"} url={"/news"}
+                        author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
+                        time={"10 minutes ago"} readTime={"5 min read"}
                     />
                     <Item title={"News 1"}
-                          content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                          image={"https://placehold.co/300"} url={"/news"}
-                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
-                          time={"10 minutes ago"} readTime={"5 min read"}
+                        content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
+                        image={"https://placehold.co/300"} url={"/news"}
+                        author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
+                        time={"10 minutes ago"} readTime={"5 min read"}
                     />
                     <Item title={"News 1"}
-                          content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                          image={"https://placehold.co/300"} url={"/news"}
-                          author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
-                          time={"10 minutes ago"} readTime={"5 min read"}
+                        content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
+                        image={"https://placehold.co/300"} url={"/news"}
+                        author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
+                        time={"10 minutes ago"} readTime={"5 min read"}
                     />
                 </div>
             </div>
-            <div className="col-11 d-flex flex-wrap justify-content-center" style={{margin: "auto"}}>
+            <div className="col-11 d-flex flex-wrap justify-content-center" style={{ margin: "auto" }}>
                 {/* Add venues */}
-                {venues.length > 0 ? venues.map(venue => <Venue key={venue.id} venue={venue}/>) :
+
+                {venues.length > 0 ? venues.map(venue => <Venue key={venue.id} venue={venue} />) :
                     <h2>No venues found</h2>}
             </div>
 
             {/* Open hours section built on Jumbotron */}
             <Jumbotron title={"Open hours"}
-                       text={"The open hours varies depending on the shop, restaurant or library. Please check the webpage of\n" +
-                           "                    the place you are interested in. But in general, the shops are open from 10:00 to 20:00, the\n" +
-                           "                    restaurants are open from 11:00 to 22:00 and the library is open from 10:00 to 18:00."}
-                       image={JonkopingImageOne}
-                       additionalElement={<a href={"/contact"} className={"btn btn-primary"}>Contact us</a>}/>
-            <SocialMedia/>
+                text={"The open hours varies depending on the shop, restaurant or library. Please check the webpage of\n" +
+                    "                    the place you are interested in. But in general, the shops are open from 10:00 to 20:00, the\n" +
+                    "                    restaurants are open from 11:00 to 22:00 and the library is open from 10:00 to 18:00."}
+                image={JonkopingImageOne}
+                additionalElement={<a href={"/contact"} className={"btn btn-primary"}>Contact us</a>} />
+            <SocialMedia />
         </>
 
     );

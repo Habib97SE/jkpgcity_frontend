@@ -12,6 +12,7 @@ import NewVenueCategory from "./NewVenueCategory";
 import ShowVenueCategories from "./ShowVenueCategories";
 import ShowUsers from "./ShowUsers";
 import ShowVenues from "./ShowVenues";
+import ShowSettings from "./ShowSettings";
 
 
 export {
@@ -28,5 +29,6 @@ export {
     NewVenueCategory,
     ShowVenueCategories,
     ShowUsers,
-    ShowVenues
+    ShowVenues,
+    ShowSettings
 }

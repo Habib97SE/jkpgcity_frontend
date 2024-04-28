@@ -12,6 +12,7 @@ class VenuesController {
             };
         }
         const result = await Venues.all(page, pageSize);
+
         return result.data;
     }
 
