@@ -3,10 +3,14 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import TodoController from "../../controller/TodoController";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
+
 
 const schema = yup.object().shape({
     title: yup.string().required("Title is required"),
-    description: yup.string().required("Description is required")
+    description: yup.string().required("Description is required"),
 });
 
 /**
@@ -15,35 +19,87 @@ const schema = yup.object().shape({
  * @param {Object} param0 
  * @returns 
  */
-function TodoModal({ show, setShow, year, month, day }) {
-    month = parseInt(month);
+function AddTodoModal({ show, setShow }) {
+    // State management for the form fields
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [dueDate, setDueDate] = useState("");
+
+    // State management for the error and success messages
     const [error, setError] = useState(false);
     const [success, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
+
+    // error handling for date-picker
+    const [datePickerError, setDatePickerError] = useState(false);
+    const [datePickerErrorMessage, setDatePickerErrorMessage] = useState("Due date is required");
+
+    // Handle changes on the date-picker form field and set the due date
+    const handleDateChange = (date) => {
+        if (!date) {
+            setDatePickerError(true);
+            setDatePickerErrorMessage("Due date is required");
+            return;
+        }
+
+        // check if the date is in the past 
+        const today = new Date();
+        if (date < today) {
+            setDatePickerError(true);
+            setDatePickerErrorMessage("Due date cannot be in the past");
+            return;
+        }
+
+        // if no errors, set the due date
+        setDatePickerError(false);
+        setDueDate(formatDate(date));
+    }
+
+
+
     // Removed the show state management from here and use props instead
-    const [todos, setTodos] = useState([]);
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, unregister, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
+    const formatDate = (date) => {
+        if (!date) return '';
+
+        const d = new Date(date);
+        let month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
 
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        if (!dueDate) {
+            setDatePickerError(true);
+            setDatePickerErrorMessage("Due date is required");
+            return;
+        }
         const todo = {
             title: data.title,
             description: data.description,
             userId: 2,
-            dueDate: `${year}-${month}-${day}`,
+            dueDate: dueDate,
             status: 0,
             priority: "high",
         };
-        const result = TodoController.addTodo(todo);
+        const result = await TodoController.addTodo(todo);
+        console.log(result);
         if (result.message === "Success") {
             setError(false);
             setSuccess(true);
             setMessage("Todo added successfully");
+            return;
         }
         // If there is an error, show the error message
         setError(true);
@@ -52,6 +108,12 @@ function TodoModal({ show, setShow, year, month, day }) {
 
     }
 
+    const handleClickDisableModal = () => {
+        setError(false); // reset the error state
+        setSuccess(false); // reset the success state
+        setMessage(""); // remove the message if any
+        setShow(false); // hide the modal
+    }
 
 
     if (!show) return null;
@@ -63,8 +125,8 @@ function TodoModal({ show, setShow, year, month, day }) {
                 {/* Modal form and content go here */}
                 <div className="col-6 mx-auto">
                     <h3>Add new todo</h3>
-                    <p>{year}-{month + 1}-{day}</p>
                     <form onSubmit={handleSubmit(onSubmit)}>
+
                         <div className="form-group my-4">
                             <label htmlFor="title" className={"my-3"}>Title</label>
                             <input
@@ -77,6 +139,20 @@ function TodoModal({ show, setShow, year, month, day }) {
                             />
                             {errors.title && <p className={"text-danger"}>{errors.title.message}</p>}
                         </div>
+
+                        <div className="form-group my-4">
+                            <label htmlFor="dueDate" className={"my-3"}>Due Date</label>
+                            <DatePicker
+                                todayButton="Today"
+                                onChange={handleDateChange}
+                                dateFormat={"yyyy-MM-dd"}
+                                selected={new Date()}
+                                className={`form-control`}
+                                value={dueDate}
+                            />
+                            {datePickerError && <p className={"text-danger"}>{datePickerErrorMessage}</p>}
+                        </div>
+
                         <div className="form-group my-4">
                             <label htmlFor="description" className={"my-3"}>Description</label>
                             <textarea
@@ -89,7 +165,7 @@ function TodoModal({ show, setShow, year, month, day }) {
                             {errors.description && <p className={"text-danger"}>{errors.description.message}</p>}
                         </div>
                         <button type="submit" className={"btn btn-primary m-3 px-5 py-2"}>Add</button>
-                        <button className={"btn btn-secondary m-3 px-5 py-2"} onClick={() => setShow(false)}>Close
+                        <button className={"btn btn-secondary m-3 px-5 py-2"} onClick={() => handleClickDisableModal()}>Close
                         </button>
                     </form>
                     {error && <div className="alert alert-danger">{message}</div>}
@@ -100,4 +176,4 @@ function TodoModal({ show, setShow, year, month, day }) {
     );
 }
 
-export default TodoModal;
+export default AddTodoModal;

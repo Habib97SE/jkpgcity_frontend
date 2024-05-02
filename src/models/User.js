@@ -4,7 +4,7 @@ class User {
 
     baseUrl = "http://localhost:5000/api/v1/users/";
     static async getUserData(userId) {
-        const endpoint = `http://localhost:5000/api/v1/users/${userId}`;
+        const endpoint = `http://localhost:5001/api/v1/users/${userId}`;
         const headers = {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "true",

@@ -11,6 +11,7 @@ class TodoController {
      * // returns [{ id: 1, title: "Buy milk", description: "short description", userId: 1, status: 0, priority: "high", tag: "Instance" }]
      */
     static async getTodos(options) {
+
         const todos = await Todo.getTodos(options);
         return todos.data;
     }
@@ -25,7 +26,7 @@ class TodoController {
      * const todo = await TodoController.getTodo(1);
      * // returns { id: 1, title: "Buy milk", description: "short description", userId: 1, status: 0, priority: "high", tag: "Instance" }
      */
-    async getTodo(id) {
+    static async getTodo(id) {
         if (!id) throw new Error("ID is required");
         if (isNaN(id)) throw new Error("ID must be a number");
         const todo = await Todo.getTodo(parseInt(id));
@@ -42,7 +43,7 @@ class TodoController {
      * const todos = await TodoController.getTodosByUserId(1);
      * // returns [{ id: 1, title: "Buy milk", description: "short description", userId: 1, status: 0, priority: "high", tag: "Instance" }]
      */
-    async getTodosByUserId(userId) {
+    static async getTodosByUserId(userId) {
         if (!userId) throw new Error("User ID is required");
         if (isNaN(userId)) throw new Error("User ID must be a number");
         const todos = await Todo.getTodosByUserId(parseInt(userId));
@@ -84,14 +85,14 @@ class TodoController {
      * const todo = await TodoController.deleteTodoById(1);
      * // returns { id: 1, title: "Buy milk", description: "short description", userId: 1, status: 0, priority: "high", tag: "Instance" }
      */
-    async deleteTodoById(id) {
+    static async deleteTodoById(id) {
         if (!id) throw new Error("ID is required");
         if (isNaN(id)) throw new Error("ID must be a number");
         const todo = await Todo.deleteTodo(parseInt(id));
         return todo.data;
     }
 
-    async updateTodoById(id, data) {
+    static async updateTodoById(id, data) {
         if (!id) throw new Error("ID is required");
         if (isNaN(id)) throw new Error("ID must be a number");
         if (!data) throw new Error("Data is required");

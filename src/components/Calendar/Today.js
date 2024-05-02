@@ -13,7 +13,7 @@ function Today({ year, month, day }) {
             setTodos(todos);
         };
 
-        fetchTodos();
+        //fetchTodos();
     });
 
     if (todos.length > 0) {

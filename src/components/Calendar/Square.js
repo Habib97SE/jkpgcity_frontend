@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import TodoController from "../../controller/TodoController";
 import "../Square/Square.css";
-import TodoModal from "./TodoModal";
+import AddTodoModal from "./AddTodoModal";
+import ShowTodoModal from "./ShowTodoModal";
 import "./styles.css"
 
 
@@ -29,65 +30,68 @@ function generateBackgroundColor(year, month, day) {
  * @returns 
  */
 function Square({ size, color, year, month, day, children }) {
-    const [showModal, setShowModal] = useState(false);
+    const [showTodoModal, setShowTodoModal] = useState(false);
+    const [selectedTodo, setSelectedTodo] = useState(null);
     const [todos, setTodos] = useState([]);
-
 
     useEffect(() => {
         const fetchTodos = async () => {
-            const todos = await TodoController.getTodos({ dueDate: `${year}-${month}-${day}` });
-            setTodos(todos);
+            const todosFromDB = await TodoController.getTodos({ dueDate: `${year}-${parseInt(month) + 1}-${day}` });
+            console.log(todosFromDB);
+            if (!todosFromDB.data) {
+                setTodos([]);
+            } else {
+                setTodos(todosFromDB.data);
+            }
         };
 
         fetchTodos();
     }, [year, month, day]);
 
-    const handleClickShowModal = () => {
-        // Set showModal only if the date is not in the past
-        if (new Date(year, month, day) >= todaysDate) {
-            setShowModal(true);
-        }
-    }
+    const handleTodoClick = (todo) => {
+        setSelectedTodo(todo);
+        setShowTodoModal(true);
+    };
 
     return (
         <div
-            className="square d-flex justify-content-center align-content-center p-4"
+            className="square d-flex flex-column justify-content-center align-items-center p-4"
             style={{
-                width: size,
-                height: size,
+                flexGrow: 1,
+                flexBasis: "0",
                 backgroundColor: generateBackgroundColor(year, month, day),
                 borderRadius: "10px",
             }}
-            onClick={() => handleClickShowModal()} // Set showModal to true on click
         >
-            {/* all content of the square is shown here */}
             {children}
             <hr />
-            {/* Display the todos in the square */}
-            {todos.length > 0 ? (
+            {todos.length > 0 && (
                 <div>
-                    <h4>Todos</h4>
                     <ul>
-                        {todos.map((t, index) => (
-                            <li key={index}>{t.title}</li>
+                        {todos.map((todo, index) => (
+                            <li
+                                style={{ cursor: "pointer", listStyleType: "none" }}
+                                key={index}
+                                className="fs-6 bg-light rounded p-1"
+                                onClick={() => handleTodoClick(todo)}
+                            >
+                                {todo.title}
+                            </li>
                         ))}
                     </ul>
                 </div>
-            ) : (
-                <p>No todos for today</p>
             )}
 
-            {/* Display the modal */}
-
-            <TodoModal
-                show={showModal}
-                setShow={setShowModal}
-                year={year}
-                month={month}
-                day={day}
-            />
+            {selectedTodo && (
+                <ShowTodoModal
+                    todo={selectedTodo}
+                    show={showTodoModal}
+                    setShow={setShowTodoModal}
+                />
+            )}
         </div>
     );
 }
+
 
 export default Square;

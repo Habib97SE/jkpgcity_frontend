@@ -39,6 +39,11 @@ class UserController {
         const result = await User.getRoles();
         return result.data.data;
     }
+
+    static async getUserFullName(userId) {
+        const user = await User.getUserData(userId);
+        return `${user.data.firstName} ${user.data.lastName}`;
+    }
 }
 
 export default UserController;
