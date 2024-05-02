@@ -1,4 +1,5 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import TodoController from "../../controller/TodoController";
 
 
 function Today({ year, month, day }) {
@@ -7,7 +8,12 @@ function Today({ year, month, day }) {
 
 
     useEffect(() => {
-        // TODO: add logic to fetch todos for the current day
+        const fetchTodos = async () => {
+            const todos = await TodoController.getTodos({ dueDate: `${year}-${month}-${day}` });
+            setTodos(todos);
+        };
+
+        //fetchTodos();
     });
 
     if (todos.length > 0) {

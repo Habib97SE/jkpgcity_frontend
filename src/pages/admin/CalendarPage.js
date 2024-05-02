@@ -10,6 +10,7 @@ function CalendarPage() {
     useEffect(() => {
         // change title
         document.title = "Calendar - Admin Dashboard";
+
     });
 
     return (
@@ -26,7 +27,7 @@ function CalendarPage() {
                 <div className={"form-group"}>
                     <label htmlFor={"month"}>Month</label>
                     <select id={"month"} className={"form-select"} value={month}
-                            onChange={(e) => setMonth(e.target.value)}>
+                        onChange={(e) => setMonth(e.target.value)}>
                         <option value={0}>January</option>
                         <option value={1}>February</option>
                         <option value={2}>March</option>
@@ -44,7 +45,7 @@ function CalendarPage() {
                 <div className={"form-group"}>
                     <label htmlFor={"year"}>Year</label>
                     <select id={"year"} className={"form-select my-2"} value={year}
-                            onChange={(e) => setYear(e.target.value)}>
+                        onChange={(e) => setYear(e.target.value)}>
                         <option value={year - 1}>{year - 1}</option>
                         <option value={year}>{year}</option>
                         <option value={year + 1}>{year + 1}</option>
@@ -52,7 +53,7 @@ function CalendarPage() {
                 </div>
             </div>
 
-            <Calendar year={year} month={month}/>
+            <Calendar year={year} month={month} />
         </div>
     );
 }
