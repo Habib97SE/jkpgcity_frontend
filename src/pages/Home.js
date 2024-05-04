@@ -14,6 +14,7 @@ import SocialMedia from "../components/SocialMedia/SocialMedia";
 import Venue from "../components/Venue/Venue";
 import VenuesController from "../controller/VenuesController";
 import SettingsController from "../controller/SettingsController";
+import HomePageSection from "../components/News/HomePageSection";
 
 function Home() {
 
@@ -139,24 +140,9 @@ function Home() {
                     <a href={"/news"}>See all news</a>
                 </div>
                 <div className="col-11 d-flex justify-content-between align-content-center">
-                    <Item title={"News 1"}
-                        content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                        image={"https://placehold.co/300"} url={"/news"}
-                        author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
-                        time={"10 minutes ago"} readTime={"5 min read"}
-                    />
-                    <Item title={"News 1"}
-                        content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                        image={"https://placehold.co/300"} url={"/news"}
-                        author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
-                        time={"10 minutes ago"} readTime={"5 min read"}
-                    />
-                    <Item title={"News 1"}
-                        content={"This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news. This is the first news."}
-                        image={"https://placehold.co/300"} url={"/news"}
-                        author={"John Doe"} category={<span className={"text-danger"}>Technology</span>}
-                        time={"10 minutes ago"} readTime={"5 min read"}
-                    />
+                    <HomePageSection />
+                    <HomePageSection />
+                    <HomePageSection />
                 </div>
             </div>
             <div className="col-11 d-flex flex-wrap justify-content-center" style={{ margin: "auto" }}>

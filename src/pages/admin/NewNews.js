@@ -1,22 +1,26 @@
-import React, {useState} from "react";
-import { useForm} from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {newNewsForm} from "../../utils/form-fields";
-import TinyMCE from "../../components/TinyMCE";
+import { newNewsForm } from "../../utils/form-fields";
 
+import NewsController from "../../controller/NewsController";
+
+import TinyMCE from "../../components/TinyMCE";
 
 const schema = yup.object().shape({
     title: yup.string().required("Title is required").min(5, "Title must be at least 5 characters").max(100, "Title must be at most 100 characters"),
-    content: yup.string().required("Content is required").min(20, "Content must be at least 20 characters"),
-    slug: yup.string().required("Slug is required").matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug must be kebab case (slug)"),
-    image: yup.string().required("Image is required").url("Image must be a valid URL"),
-    category: yup.string().required("Category is required"),
+    slug: yup.string().required("Slug is required"),
+    image: yup.string().required("Image is required"),
+    category: yup.number().required("Category is required"),
     summary: yup.string().required("Summary is required").min(20, "Summary must be at least 20 characters").max(200, "Summary must be at most 200 characters"),
     published: yup.boolean().required("Published is required"),
 });
 
-
+/**
+ * NewNews component is aimed to create a new news article by using TinyMCE editor.
+ * @returns {JSX.Element} NewNews component
+ */
 function NewNews() {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
@@ -28,11 +32,72 @@ function NewNews() {
     const [category, setCategory] = useState("");
     const [summary, setSummary] = useState("");
     const [published, setPublished] = useState(false);
+    const [categories, setCategories] = useState([]);
+
+    // content error handling
+    const [contentError, setContentError] = useState(false);
+    const [contentErrorMessage, setContentErrorMessage] = useState("");
+
+    // form submit error handling
+    const [submitError, setSubmitError] = useState(false);
+    const [message, setMessage] = useState("");
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    /**
+     * onSubmit function is used to handle form submission, send data to the server and handle the response.
+     * @param {Object} data: Form data
+     * @returns {Promise<void>}
+     */
+    const onSubmit = async (data) => {
+        if (content.length === 0) {
+            setContentError(true);
+            setContentErrorMessage("Content is required");
+            return;
+        }
+        // Update the data object to include all form fields
+        data = {
+            ...data,
+            title: title.trim(),
+            content: content.trim(),
+            slug: slug.trim(),
+            image: image.trim(),
+            newsCategoryId: parseInt(category.trim()),
+            summary: summary.trim(),
+            published: published,
+            authorId: 2, // Assuming this is static for now
+            likes: 0,
+            views: 0
+        };
+        console.log("Submitting Data:", data);
+        const result = await NewsController.create(data);
+        if (result.message === "Success") {
+            setSubmitSuccess(true);
+            setMessage("News article created successfully");
+            setSubmitError(false);
+        } else {
+            setSubmitError(true);
+            setMessage(`Error: ${result.message}`);
+            setSubmitSuccess(false);
+        }
+    };
 
 
-const onSubmit = (data) => {
-    console.log(data);
-}
+    const handleChangeContent = (content) => {
+        setContent(content.target.value);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await NewsController.getCategories();
+            setCategories(result.data);
+        };
+
+        fetchData();
+
+
+    }, []);
+
+
 
     return (
         <div
@@ -47,6 +112,7 @@ const onSubmit = (data) => {
             <h1>New News</h1>
             <p>Add news</p>
             <form onSubmit={handleSubmit(onSubmit)}>
+                {/* Title, input[text]: News article title */}
                 <div className="form-group my-4">
                     <label htmlFor={newNewsForm.title.id}>{newNewsForm.title.label}</label>
                     <input
@@ -58,18 +124,22 @@ const onSubmit = (data) => {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
-                    {errors.title && <p className="text-danger">{errors.title.message}</p>}
-                    </div>
-                        <div className="form-group my-4">
-                    <label>{newNewsForm.content.label}</label>
-                    <TinyMCE className={`form-control ${errors.content ? "is-invalid" : ""}`}
-                        {...register("content")}
-                        name={newNewsForm.content.id}
-                        value={content}
-                        onChange={(e) => setContent(e.target.getContent())}
-                    />
-                    {errors.content && <p className={"text-danger"}>{errors.content.message}</p>}
+                    {errors.title && <p className={"text-danger"}>{errors.title.message}</p>}
                 </div>
+                {/* Content, textarea: Content of the article */}
+                <div className="form-group my-4">
+                    <label>{newNewsForm.content.label}</label>
+                    <TinyMCE
+                        id={newNewsForm.content.id}
+                        value={content}
+                        onChange={handleChangeContent}
+                        register={register}
+                        name={newNewsForm.content.id}
+                        className={`form-control`}
+                    />
+                    {contentError && <p className={"text-danger"}>{contentErrorMessage}</p>}
+                </div>
+                {/* Slug, input[text]: To set the slug of the article */}
                 <div className="form-group my-4">
                     <label htmlFor={newNewsForm.slug.id}>{newNewsForm.slug.label}</label>
                     <input
@@ -84,6 +154,7 @@ const onSubmit = (data) => {
                     />
                     {errors.slug && <p className={"text-danger"}>{errors.slug.message}</p>}
                 </div>
+                {/* Image: input[file]: To upload main image of the article */}
                 <div className="form-group my-4">
                     <label htmlFor={newNewsForm.image.id}>{newNewsForm.image.label}</label>
                     <input
@@ -99,22 +170,27 @@ const onSubmit = (data) => {
                     />
                     {errors.image && <p className={"text-danger"}>{errors.image.message}</p>}
                 </div>
+                {/* Category, select: The category of written article */}
                 <div className="form-group my-4">
                     <label htmlFor={newNewsForm.category.id}>{newNewsForm.category.label}</label>
                     <select
                         {...register("category")}
                         name={newNewsForm.category.id}
                         id={newNewsForm.category.id}
-                        className={`form-control ${errors.category ? "is-invalid" : ""}`}
+                        className={`form-select ${errors.category ? "is-invalid" : ""}`}
                         value={category}
-                        onChange={(e) => setCategory(e.target.value)}
+                        onChange={(e) => {
+                            console.log("Selected Category ID:", e.target.value);
+                            setCategory(e.target.value);
+                        }}
                     >
-                        <option value="technology">Technology</option>
-                        <option value="science">Science</option>
-         npm               <option value="sport">Sport</option>
+                        {categories.map((category) => (
+                            <option key={category.newsCategoryId} value={category.newsCategoryId}>{category.name}</option>
+                        ))}
                     </select>
                     {errors.category && <p className={"text-danger"}>{errors.category.message}</p>}
                 </div>
+                {/* Summary: textarea: A short text to be shown in the newslist or homepage */}
                 <div className="form-group my-4">
                     <label htmlFor={newNewsForm.summary.id}>{newNewsForm.summary.label}</label>
                     <textarea
@@ -128,6 +204,7 @@ const onSubmit = (data) => {
                     />
                     {errors.summary && <p className={"text-danger"}>{errors.summary.message}</p>}
                 </div>
+                {/* Published: select: To choose whether publish the article directly or wait */}
                 <div className="form-group my-1">
                     <label htmlFor={newNewsForm.published.id}>{newNewsForm.published.label}</label>
                     <select
@@ -141,13 +218,16 @@ const onSubmit = (data) => {
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>
-
                     {errors.published && <p className={"text-danger"}>{errors.published.message}</p>}
                 </div>
+
+                <br />
                 <button type="submit" className="btn btn-primary">
                     Add News
                 </button>
             </form>
+            {submitError && <div className={"alert alert-danger my-4"}>{message}</div>}
+            {submitSuccess && <div className={"alert alert-success my-4"}>{message}</div>}
         </div>
     );
 }

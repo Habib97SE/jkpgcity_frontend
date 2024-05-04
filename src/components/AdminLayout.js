@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
     FaCog,
     FaEnvelope,
@@ -9,9 +9,9 @@ import {
     FaTachometerAlt,
     FaUsers
 } from "react-icons/fa";
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-const NavItem = ({key, href, children}) => {
+const NavItem = ({ key, href, children }) => {
     return (
         <li key={key} className="nav-item">
             <a className="nav-link active" aria-current="page" href={href}>{children}</a>
@@ -22,13 +22,13 @@ const NavItem = ({key, href, children}) => {
 
 const Sidebar = () => {
     const sidebarItems = [
-        {href: "/", icon: <FaHome />, text: "View site"},
-        {href: "/admin", icon: <FaTachometerAlt/>, text: "Dashboard"},
-        {href: "/admin/venues", icon: <FaMapMarkedAlt/>, text: "Venues"},
-        {href: "/admin/news", icon: <FaRegNewspaper/>, text: "News"},
-        {href: "/admin/users", icon: <FaUsers/>, text: "Users"},
-        {href: "/admin/calendar", icon: <FaUsers/>, text: "Calendar"},
-        {href: "/admin/settings", icon: <FaCog/>, text: "Settings"},
+        { href: "/", icon: <FaHome />, text: "View site" },
+        { href: "/admin", icon: <FaTachometerAlt />, text: "Dashboard" },
+        { href: "/admin/venues", icon: <FaMapMarkedAlt />, text: "Venues" },
+        { href: "/admin/news", icon: <FaRegNewspaper />, text: "News" },
+        { href: "/admin/users", icon: <FaUsers />, text: "Users" },
+        { href: "/admin/calendar", icon: <FaUsers />, text: "Calendar" },
+        { href: "/admin/settings", icon: <FaCog />, text: "Settings" },
     ]
 
     const sidebarItemsList = sidebarItems.map((item, index) => {
@@ -53,7 +53,7 @@ const Sidebar = () => {
 };
 
 
-const NotificationItem = ({number}) => {
+const NotificationItem = ({ number }) => {
     return (
         <span style={{
             position: 'absolute',
@@ -71,11 +71,11 @@ const NotificationItem = ({number}) => {
     );
 }
 
-function AdminLayout({children}) {
+function AdminLayout({ children }) {
     const [unreadMessages, setUnreadMessages] = useState(true); // false means there are unread message that should be shown
     const [unreadNotifications, setUnreadNotifications] = useState(true); // false means there are unread notifications that should be shown
     const navItems = [
-        {href: "/admin/profile", children: "Profile"},
+        { href: "/admin/profile", children: "Profile" },
     ]
 
     const navItemsList = navItems.map((item, index) => {
@@ -110,103 +110,103 @@ function AdminLayout({children}) {
                             }}
                         >
 
-                                <div className="container-fluid px-5">
-                                    <h1>Welcome Habib</h1>
-                                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                                            aria-label="Toggle navigation">
-                                        <span className="navbar-toggler-icon"></span>
-                                    </button>
-                                    <div className="collapse navbar-collapse" id="navbarNav">
+                            <div className="container-fluid px-5">
+                                <h1>Welcome Habib</h1>
+                                <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                                    aria-label="Toggle navigation">
+                                    <span className="navbar-toggler-icon"></span>
+                                </button>
+                                <div className="collapse navbar-collapse" id="navbarNav">
 
-                                        <ul className="navbar-nav ms-auto" style={{
-                                            marginRight: "2vw",
-                                        }}> {/* ms-auto will align the items to the right */}
-                                            <li className={"nav-item dropdown"}>
-                                                <a className={"nav-link dropdown-toggle"} href={"#"}
-                                                   id={"navbarDropdown"}
-                                                   role={"button"} data-bs-toggle={"dropdown"} aria-expanded={"false"}>
-                                                    <div
-                                                        style={{position: 'relative'}}
-                                                        onClick={handleUnreadNotifications}
-                                                    >
-                                                        <FaGlobeAsia style={{
-                                                            width: "30px",
-                                                            height: "30px",
-                                                            borderRadius: "50%",
-                                                            objectFit: "cover",
-                                                        }}/>
-                                                        {unreadNotifications && <NotificationItem number={3}/>}
-                                                    </div>
-                                                </a>
-                                                <div className={"dropdown-menu mx-3"}
-                                                     aria-labelledby={"navbarDropdown"}>
-                                                    <a className={"dropdown-item"} href={"/"}>Notification 1</a>
-                                                    <a className={"dropdown-item"} href={"/"}>Notification 2</a>
-                                                    <a className={"dropdown-item"} href={"/"}>Notification 3</a>
+                                    <ul className="navbar-nav ms-auto" style={{
+                                        marginRight: "2vw",
+                                    }}> {/* ms-auto will align the items to the right */}
+                                        <li className={"nav-item dropdown"}>
+                                            <a className={"nav-link dropdown-toggle"} href={"#"}
+                                                id={"navbarDropdown"}
+                                                role={"button"} data-bs-toggle={"dropdown"} aria-expanded={"false"}>
+                                                <div
+                                                    style={{ position: 'relative' }}
+                                                    onClick={handleUnreadNotifications}
+                                                >
+                                                    <FaGlobeAsia style={{
+                                                        width: "30px",
+                                                        height: "30px",
+                                                        borderRadius: "50%",
+                                                        objectFit: "cover",
+                                                    }} />
+                                                    {unreadNotifications && <NotificationItem number={3} />}
                                                 </div>
-                                            </li>
-                                            <li className="nav-item dropdown">
-                                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-                                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <div
-                                                        style={{position: 'relative'}}
-                                                        onClick={() => setUnreadMessages(false)}
-                                                    >
-                                                        <FaEnvelope style={{
-                                                            width: "30px",
-                                                            height: "30px",
-                                                            borderRadius: "50%",
-                                                            objectFit: "cover",
-                                                        }}/>
-                                                        {unreadMessages && <NotificationItem number={2}/>}
-                                                    </div>
-                                                </a>
-                                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <li
-                                                        style={{padding: '10px'}}
-                                                        className={"col-6"}
-                                                    ><a className="dropdown-item" href="/">View site</a></li>
+                                            </a>
+                                            <div className={"dropdown-menu mx-3"}
+                                                aria-labelledby={"navbarDropdown"}>
+                                                <a className={"dropdown-item"} href={"/"}>Notification 1</a>
+                                                <a className={"dropdown-item"} href={"/"}>Notification 2</a>
+                                                <a className={"dropdown-item"} href={"/"}>Notification 3</a>
+                                            </div>
+                                        </li>
+                                        <li className="nav-item dropdown">
+                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <div
+                                                    style={{ position: 'relative' }}
+                                                    onClick={() => setUnreadMessages(false)}
+                                                >
+                                                    <FaEnvelope style={{
+                                                        width: "30px",
+                                                        height: "30px",
+                                                        borderRadius: "50%",
+                                                        objectFit: "cover",
+                                                    }} />
+                                                    {unreadMessages && <NotificationItem number={2} />}
+                                                </div>
+                                            </a>
+                                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <li
+                                                    style={{ padding: '10px' }}
+                                                    className={"col-6"}
+                                                ><a className="dropdown-item" href="/">View site</a></li>
 
-                                                </ul>
-                                            </li>
-                                            <li className="nav-item dropdown">
-                                                <a className="nav-link dropdown-toggle" href="#"
-                                                   id="navbarDropdownMenuLink"
-                                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <img
-                                                        src="https://i.pravatar.cc/150"
-                                                        alt="Profile"
-                                                        style={{
-                                                            width: "30px",
-                                                            height: "30px",
-                                                            borderRadius: "50%",
-                                                            objectFit: "cover",
-                                                        }}
-                                                    />
-                                                    <span className={"mx-1"}>Habib Hezarehee</span>
-                                                </a>
-                                                <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                    <li><a className="dropdown-item" href="/profile">My Profile</a></li>
-                                                    <li><a className="dropdown-item" href="/settings">Settings</a></li>
-                                                    <li><a className="dropdown-item" href="/logout">Logout</a></li>
+                                            </ul>
+                                        </li>
+                                        <li className="nav-item dropdown">
+                                            <a className="nav-link dropdown-toggle" href="#"
+                                                id="navbarDropdownMenuLink"
+                                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <img
+                                                    src="https://i.pravatar.cc/150"
+                                                    alt="Profile"
+                                                    style={{
+                                                        width: "30px",
+                                                        height: "30px",
+                                                        borderRadius: "50%",
+                                                        objectFit: "cover",
+                                                    }}
+                                                />
+                                                <span className={"mx-1"}>Habib Hezarehee</span>
+                                            </a>
+                                            <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                                <li><a className="dropdown-item" href="/profile">My Profile</a></li>
+                                                <li><a className="dropdown-item" href="/settings">Settings</a></li>
+                                                <li><a className="dropdown-item" href="/logout">Logout</a></li>
 
-                                                </ul>
-                                            </li>
+                                            </ul>
+                                        </li>
 
-                                        </ul>
-                                    </div>
+                                    </ul>
                                 </div>
+                            </div>
                         </nav>
                     </div>
                 </div>
             </div>
             <div className="container-fluid my-2">
                 <div className="row">
-                    <Sidebar/>
+                    <Sidebar />
 
                     <div className="col-md-9 ms-sm-auto">
-                        <Outlet/>
+                        <Outlet />
                     </div>
                 </div>
             </div>
@@ -214,7 +214,7 @@ function AdminLayout({children}) {
                 <div className={"col-12"}>
                     <footer className={"bg-dark text-white text-center p-3"}>
                         <p>
-                            &copy; 2021 Jönköping City. All rights reserved.
+                            &copy; {new Date().getFullYear()} Jönköping City. All rights reserved.
                         </p>
                     </footer>
                 </div>

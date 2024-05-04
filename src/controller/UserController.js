@@ -40,6 +40,14 @@ class UserController {
         return result.data.data;
     }
 
+    /**
+     * Retrieve the full name of a user for a given user ID
+     * @param {number} userId : User ID
+     * @returns {string} : Full name of the user
+     * @example 
+     * const fullName = await UserController.getUserFullName(1);
+     * // returns "John Doe"
+     */
     static async getUserFullName(userId) {
         const user = await User.getUserData(userId);
         return `${user.data.firstName} ${user.data.lastName}`;

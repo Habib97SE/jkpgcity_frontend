@@ -1,24 +1,20 @@
-import React, {useEffect, useState} from "react";
-import Pagination from "../components/Pagination/Pagination";
-import Item from "../components/Item/Item";
+import React, { useEffect, useState } from "react";
+import NewsList from "../components/News/NewsList";
 import Filter from "../components/Filter/Filter";
 import Sort from "../components/Sort/Sort";
+import Pagination from "../components/Pagination/Pagination";
 
+/**
+ * News page is aimed to show a brief overview of all news. It will show the latest news first.
+ * It will also have a filter and sort option to filter and sort the news.
+ * @returns {JSX.Element}
+ */
 function News() {
-    const [news, setNews] = useState([]);
+
     const [filterBy, setFilterBy] = useState("date");
     const [sortBy, setSortBy] = useState("newest");
     useEffect(() => {
         document.title = "News";
-        const fetchNews = async () => {
-            const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-            const data = await response.json();
-            setNews(data);
-        }
-
-        fetchNews();
-
-
     }, [filterBy, sortBy]);
 
     const handleFilterChange = (e) => {
@@ -36,24 +32,24 @@ function News() {
 
     return (
         <div className={"col-9 mx-auto"}>
-            <div className={"row d-flex flex-row justify-content-between mx-2 my-2"}>
-                <h1>Latest News around Jönköping</h1>
-                <Filter handleChange={handleFilterChange}/>
-                <Sort handleChange={handleSortChange}/>
+            <h1 className={"text-center"}>News</h1>
+            <hr />
+            <div className="row">
+                <div className="col-6">
+                    <Filter handleFilterChange={handleFilterChange} />
+                </div>
+                <div className="col-6">
+                    <Sort handleSortChange={handleSortChange} />
+                </div>
             </div>
-            <hr/>
-            <div className={"row d-flex flex-wrap"}>
-                {news.map((article, index) => {
-                    return <Item key={index} id={article.id} title={article.title} content={article.body}
-                                 image={"https://picsum.photos/200/300"} author={"John Doe"} time={"10 minutes ago"}
-                                 category={<span style={{color: "red"}}>{randomCategory()}</span>}
-                                 readTime={"5 min read"}/>
-                })}
+            <div className={"row d-flex flex-wrap justify-content-center align-items-center"}>
+                <NewsList />
             </div>
-            <hr/>
-            <div className={"row pagination"}>
-                <Pagination/>
+            <hr />
+            <div className="row">
+                <Pagination />
             </div>
+
         </div>
     );
 }
