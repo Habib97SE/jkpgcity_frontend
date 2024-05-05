@@ -15,7 +15,7 @@ class News {
                 "Access-Control-Allow-Origin": "true"
             }
             const response = await axios.get(endpoint, { headers });
-            console.log(response);
+
             return response;
         } catch (error) {
             console.error(error);
@@ -44,6 +44,7 @@ class News {
             return null;
         }
     }
+
 
     static async find(id) {
         try {
@@ -111,14 +112,45 @@ class News {
         }
     }
 
-    static async like(id) {
+    static async like(userId, newsId) {
         try {
-            const endpoint = `http://localhost:5001/api/v1/news/${id}/like`;
+            const endpoint = `http://localhost:5001/api/v1/news/${newsId}/like?userId=${userId}`;
             const headers = {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "true"
             }
             const response = await axios.post(endpoint, { headers });
+            console.dir(response);
+            return response;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    static async unlike(userId, newsId) {
+        try {
+            const endpoint = `http://localhost:5001/api/v1/news/${newsId}/unlike?userId=${userId}`;
+            const headers = {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "true"
+            }
+            const response = await axios.post(endpoint, { headers });
+            return response;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    static async getusersLikes(newsId) {
+        try {
+            const endpoint = `http://localhost:5001/api/v1/news/${newsId}/likes`;
+            const headers = {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "true"
+            }
+            const response = await axios.get(endpoint, { headers });
             return response;
         } catch (error) {
             console.error(error);

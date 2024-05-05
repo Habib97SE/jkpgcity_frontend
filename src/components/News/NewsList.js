@@ -17,7 +17,7 @@ function NewsList() {
         document.title = "News";
         const fetchNews = async () => {
             const response = await NewsController.all(1, 10, { filterBy }, { sortBy });
-            console.log(response);
+
             if (response.message === "Success") {
                 setNews(response.data);
             } else {
@@ -63,7 +63,7 @@ function NewsList() {
             <hr />
             <div className={"row d-flex flex-wrap justify-content-center align-items-center"}>
                 {news.map((article, index) => {
-                    return <HomePageSection article={article} />
+                    return <HomePageSection key={article.newsId} article={article} />
                 })}
             </div>
             <hr />

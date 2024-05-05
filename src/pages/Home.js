@@ -15,14 +15,18 @@ import Venue from "../components/Venue/Venue";
 import VenuesController from "../controller/VenuesController";
 import SettingsController from "../controller/SettingsController";
 import HomePageSection from "../components/News/HomePageSection";
+import NewsController from "../controller/NewsController";
 
 function Home() {
 
     const [venues, setVenues] = useState([]);
+    const [news, setNews] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
             try {
+                const newsResponse = await NewsController.all();
+                setNews(newsResponse.data);
                 const venues = await VenuesController.all();
                 setVenues(venues.data);
                 const homepageSettings = await SettingsController.getHomePageSettings();
@@ -140,9 +144,9 @@ function Home() {
                     <a href={"/news"}>See all news</a>
                 </div>
                 <div className="col-11 d-flex justify-content-between align-content-center">
-                    <HomePageSection />
-                    <HomePageSection />
-                    <HomePageSection />
+                    {/** Show only up to three news section */}
+                    {news.length > 0 ? news.slice(0, 3).map(article => <HomePageSection key={article.id} article={article} />) :
+                        <h2>No news found</h2>}
                 </div>
             </div>
             <div className="col-11 d-flex flex-wrap justify-content-center" style={{ margin: "auto" }}>

@@ -18,7 +18,7 @@ function NewsArticle() {
 
 
     useEffect(() => {
-        console.log("useEffect in NewsArticle")
+
         const fetchNews = async () => {
             const response = await NewsController.find(id);
             if (response.message === "Success") {
@@ -30,6 +30,14 @@ function NewsArticle() {
                 const categoryName = await NewsController.getCategory(data.newsCategoryId);
                 setCategory(categoryName);
                 setCustomMadeDateText(CustomDate.generateCustomeMadeDateText(data.createdAt));
+
+                // Check if user liked the news
+                const userId = 2;
+                const newsId = data.newsId;
+                const result = await NewsController.userLikedNews(userId, newsId);
+                setLiked(result);
+                setCountLike(data.likes);
+
             } else {
                 console.log(response.error);
             }
@@ -38,9 +46,21 @@ function NewsArticle() {
         fetchNews();
     }, [id]);
 
-    const handleClick = () => {
-        setLiked(!liked);
-        setCountLike(prevCount => liked ? prevCount - 1 : prevCount + 1);
+    const handleClick = async () => {
+        console.log("handleClick");
+        const userId = 2;
+        const newsId = news.newsId;
+        if (!liked) {
+            setLiked(true);
+            setCountLike(countLike + 1);
+            const result = await NewsController.like(userId, newsId);
+            console.dir(result);
+        } else {
+            setLiked(false);
+            setCountLike(countLike - 1);
+            const result = await NewsController.unlike(userId, newsId);
+            console.dir(result);
+        }
     }
 
     // Guard against accessing properties of 'news' before it is defined
@@ -70,10 +90,16 @@ function NewsArticle() {
             <div
                 className="my-3"
                 dangerouslySetInnerHTML={{ __html: news.content }} />
-            <footer>
-                <span>
+            <footer
+                style={{ borderTop: "1px solid #f2f2f2", paddingTop: "10px" }}
+                className="d-flex align-items-center m-5"
+            >
+                <span className="mx-2">
                     <small className={"text-danger mx-2"}>{category}</small>
-                    <GoDotFill style={{ color: "#a6a6a6" }} />
+
+                </span>
+                <GoDotFill style={{ color: "#a6a6a6" }} />
+                <span>
                     <small className={"mx-2"} style={{ color: "#a6a6a6" }}>{customMadeDateText}</small>
                 </span>
                 <span className={"float-right"}>
