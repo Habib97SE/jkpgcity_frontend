@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "./components/Layout";
 import AdminLayout from "./components/AdminLayout";
 // pages for client sidde
-import { Contact, About, Home, News, SingleNews, Login, Register, Venues, Profile } from "./pages";
+import { Contact, About, Home, News, SingleNews, Login, Register, Venues, Profile, SingleVenue } from "./pages";
 
 // pages for admin side
 import {
@@ -26,6 +26,8 @@ function App() {
                     <Route path={"/register"} element={<Register />} />
 
                     <Route path={"/venues"} element={<Venues />} />
+                    <Route path={"/venues/:id"} element={<SingleVenue />} />
+
                     <Route path={"/profile"} element={<Profile />} />
                     <Route path={"/about"} element={<About />} />
                     <Route path={"/contact"} element={<Contact />} />

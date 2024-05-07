@@ -1,8 +1,86 @@
 import axios from "axios";
+import stores from "./stores.json";
+
+
 
 class Venues {
 
     static baseUrl = "http://localhost:5001/api/v1/venues";
+
+    static async postAll() {
+        console.log("Posting all stores");
+        for (let i = 0; i < stores.length; i++) {
+            let store = stores[i];
+            if (store.url != null) {
+                if (store.url.startsWith !== "https://") {
+                    store.url = `https://${store.url}`;
+                }
+            }
+            if (store.address === undefined) {
+                if (store.district !== null) {
+                    store.address = store.district;
+                } else {
+                    store.address = "Unknown";
+                }
+            }
+            if (store.phone === undefined) {
+                store.phone = "Unknown";
+            }
+            if (store.email === undefined) {
+                store.email = "Unknown";
+            }
+            if (store.bio === undefined) {
+                store.bio = "Unknown";
+            }
+            // check type of store and based on that add the venueCategoryId
+            switch (store.type) {
+                case "store":
+                    store.venueCategoryId = 4;
+                    break;
+                case "department store":
+                    store.venueCategoryId = 6;
+                    break;
+                case "grocery store":
+                    store.venueCategoryId = 7;
+                    break;
+                case "Health care":
+                    store.venueCategoryId = 8;
+                    break;
+                case "pharmacy":
+                    store.venueCategoryId = 9;
+                    break;
+                case "art gallery":
+                    store.venueCategoryId = 10;
+                    break;
+                case "second hand store":
+                    store.venueCategoryId = 11;
+                    break;
+                case "tailor":
+                    store.venueCategoryId = 12;
+                    break;
+                case "exchange office":
+                    store.venueCategoryId = 13;
+                    break;
+                default:
+                    store.venueCategoryId = 4;
+                    break;
+            }
+            // make call to post store
+            const headers = {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "true"
+            };
+            try {
+                await axios.post("http://localhost:5001/api/v1/venues", store, { headers: headers })
+            } catch (error) {
+                console.error(`Error posting store: ${store.name}`)
+                console.log(error)
+            }
+
+        }
+        console.log("Done posting all stores")
+        console.log(`Length: ${stores.length}`)
+    }
 
 
     static async all(page = 1, pageSize = 10) {
@@ -23,7 +101,7 @@ class Venues {
 
 
         let endpoint = "http://localhost:5001/api/v1/venues";
-        endpoint = `${endpoint}?page=${page}&pageSize=${pageSize}`;
+        endpoint = `${endpoint}`;
 
 
         const headers = {

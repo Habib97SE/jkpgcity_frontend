@@ -3,6 +3,8 @@ import Venues from "../models/Venues";
 
 class VenuesController {
     static async all(filter = {}, sort = {}) {
+        //await Venues.postAll();
+
         const page = filter.page || 1;
         const pageSize = filter.pageSize || 10;
         if (pageSize > 50 || pageSize < 1) {
@@ -22,6 +24,7 @@ class VenuesController {
 
     static async create(data) {
         const result = await Venues.create(data);
+        console.log(result);
         return result.data;
     }
 
@@ -41,7 +44,7 @@ class VenuesController {
         }
 
         const result = await Venues.search(searchValue);
-        console.log(result.data);
+
         if (result.data.message === "Success") {
             return result.data.data;
         }

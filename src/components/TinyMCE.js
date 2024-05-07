@@ -25,7 +25,7 @@ function TinyMCE({ id, value, onChange, register, name, className }) {
                 id: id
             }}
             onEditorChange={(content, editor) => {
-
+                console.log(content);
                 onChange({ target: { name, value: content } });
             }}
         />

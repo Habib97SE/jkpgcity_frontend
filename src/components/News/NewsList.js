@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Pagination from "../Pagination/Pagination";
 import Filter from "../Filter/Filter";
 import Sort from "../Sort/Sort";
-import HomePageSection from "./HomePageSection";
+import NewsCard from "./NewsCard";
 import NewsController from "../../controller/NewsController";
 
 
@@ -63,7 +63,7 @@ function NewsList() {
             <hr />
             <div className={"row d-flex flex-wrap justify-content-center align-items-center"}>
                 {news.map((article, index) => {
-                    return <HomePageSection key={article.newsId} article={article} />
+                    return <NewsCard key={article.newsId} article={article} />
                 })}
             </div>
             <hr />

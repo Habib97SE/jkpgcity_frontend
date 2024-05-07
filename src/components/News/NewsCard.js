@@ -6,7 +6,7 @@ import NewsController from "../../controller/NewsController";
 import CustomDate from "../../utils/CustomDate";
 import Helper from "../../utils/Helper";
 
-function HomePageSection({ key, article }) {
+function NewsCard({ key, article }) {
 
     const [authorFullName, setAuthorFullName] = useState("");
     const [category, setCategory] = useState("");
@@ -57,4 +57,4 @@ function HomePageSection({ key, article }) {
     );
 }
 
-export default HomePageSection;
+export default NewsCard;

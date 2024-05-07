@@ -14,7 +14,7 @@ import SocialMedia from "../components/SocialMedia/SocialMedia";
 import Venue from "../components/Venue/Venue";
 import VenuesController from "../controller/VenuesController";
 import SettingsController from "../controller/SettingsController";
-import HomePageSection from "../components/News/HomePageSection";
+import NewsCard from "../components/News/NewsCard";
 import NewsController from "../controller/NewsController";
 
 function Home() {
@@ -145,11 +145,11 @@ function Home() {
                 </div>
                 <div className="col-11 d-flex justify-content-between align-content-center">
                     {/** Show only up to three news section */}
-                    {news.length > 0 ? news.slice(0, 3).map(article => <HomePageSection key={article.id} article={article} />) :
+                    {news.length > 0 ? news.slice(0, 3).map(article => <NewsCard key={article.id} article={article} />) :
                         <h2>No news found</h2>}
                 </div>
             </div>
-            <div className="col-11 d-flex flex-wrap justify-content-center" style={{ margin: "auto" }}>
+            <div className="col-11 d-flex flex-wrap justify-content-center bg-white rounded m-2" style={{ margin: "auto" }}>
                 {/* Add venues */}
 
                 {venues.length > 0 ? venues.map(venue => <Venue key={venue.id} venue={venue} />) :

@@ -14,7 +14,6 @@ const schema = yup.object().shape({
     email: yup.string().email("Please enter a valid email address").required("Email is required"),
     website: yup.string().url().required("Website is required"),
     category: yup.string().required("Category is required"),
-    description: yup.string().max(500, "Description is too long"),
     image: yup.mixed().required("Image is required")
 });
 
@@ -43,21 +42,29 @@ function NewVenue() {
     const [venueCategories, setVenueCategories] = useState([]);
 
     const onSubmit = async (data) => {
-        data.address = address.trim();
-        data.phone = phone.trim();
-        data.email = email.trim();
-        data.website = website.trim();
-        data.category = category.trim();
-        data.description = description.trim();
-        data.image = image.trim();
-        console.dir(data);
-        const result = await VenuesController.create(data);
+        const venue = {
+            name: data.name,
+            address: data.address,
+            phone: data.phone,
+            email: data.email,
+            website: data.website,
+            venueCategoryId: data.category,
+            description: description,
+            image: data.image[0]
+        }
+        console.log(venue);
+        const result = await VenuesController.create(venue);
         if (result.message === "Success") {
             alert("Venue created successfully");
         }
         else {
             alert("Venue creation failed");
         }
+    }
+
+    const handleChangeDescription = (content, editor) => {
+        console.log(content.target.value);
+        setDescription(content.target.value);
     }
 
     useEffect(() => {
@@ -167,12 +174,12 @@ function NewVenue() {
                 <div className="form-group">
                     <label htmlFor={newVenueForm.description.id}>{newVenueForm.description.label}</label>
                     <TinyMCE
-                        id={newVenueForm.description.id}
+                        id="description"
                         value={description}
-                        onChange={(content) => setDescription(content)}
-                        register={register} // Pass the register function
-                        name="description" // Pass the name of the field
-                        className={`form-control ${errors.description ? "is-invalid" : ""}`}
+                        onChange={handleChangeDescription}
+                        register={register}
+                        name="description"
+                        className={`form-control`}
                     />
                     {errors.description && <p className="text-danger">{errors.description.message}</p>}
                 </div>

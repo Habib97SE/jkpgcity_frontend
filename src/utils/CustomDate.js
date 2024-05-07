@@ -61,7 +61,7 @@ class CustomDate {
         const days = Math.floor(hours / 24);
         const weeks = Math.floor(days / 7);
 
-        switch (true) {  // Evaluate the condition in each case
+        switch (true) { // Using switch statement to avoid multiple if-else statements
             case (seconds < 60):
                 return "Just now";
             case (minutes < 60):
@@ -71,11 +71,35 @@ class CustomDate {
             case (days < 7):
                 return `${days} days ago`;
             default:
-                // Ensure proper formatting of month and day (leading zeros)
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const day = date.getDate().toString().padStart(2, '0');
                 return `${date.getFullYear()}-${month}-${day}`;
         }
+    }
+
+    /**
+     * Checks if the venue is open now based on the open hours provided and the current time of the day
+     * @param {string} openHours : The open hours of the venue in the format "HH - HH"
+     * @returns {boolean} : true if the current time is between the open hours, false otherwise
+     * 
+     * @example
+     * const openHours = "08 - 17";
+     * const isOpen = CustomDate.isOpenNow(openHours);
+     * // returns true if the current time is between 08 and 17, false otherwise
+     * 
+     */
+    static isOpenNow(openHours) {
+        // the openHours is string in the format HH - HH
+        const [open, close] = openHours.split(" - ");
+        // take the current time, 
+        const currentDate = new Date();
+        // if the current time is between the open and close time, return "Open"
+        const currentHour = currentDate.getHours();
+
+        if (currentHour >= parseInt(open) && currentHour < parseInt(close)) {
+            return true;
+        }
+        return false;
     }
 
 }
