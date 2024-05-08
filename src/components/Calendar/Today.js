@@ -20,13 +20,13 @@ function Today() {
 
         const fetchData = async () => {
             const response = await TodoController.getTodos({ dueDate: `${year}-${month}-${day}` });
-            console.log(response.data);
             setTodos(response.data);
         }
         fetchData();
     }, []);
 
-    if (todos.length > 0) {
+    // If there are todos, display them, otherwise display a message "No todos for today"
+    if (todos !== undefined && todos.length > 0) {
         return (
             <div
                 style={{

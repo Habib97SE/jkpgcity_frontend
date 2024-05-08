@@ -1,40 +1,162 @@
 import React from "react";
+import { MdOutlinePhone } from "react-icons/md";
+import { FaRegEnvelope, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { IoLocationOutline, IoPaperPlane } from "react-icons/io5";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const validationSchema = yup.object().shape({
+    firstName: yup.string().required('First Name is required').min(2, 'First Name must be at least 2 characters'),
+    lastName: yup.string().required('Last Name is required').min(2, 'Last Name must be at least 2 characters'),
+    email: yup.string().email('Invalid email').required('Email is required'),
+    phone: yup.string().required('Phone is required').matches(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/, 'Phone number is not valid'),
+    message: yup.string().required('Message is required').min(5, 'Message must be at least 5 characters')
+});
 
 function Contact() {
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(validationSchema)
+    });
+
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const [success, setSuccess] = React.useState(false);
+    const [message, setMessage] = React.useState("");
+
+    // store contact form data
+    const [contact, setContact] = React.useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: ""
+    });
+
+    const onSubmit = async (data) => {
+        setIsLoading(true);
+        console.log("onSubmit", data);
+        setError(false);
+        setSuccess(true);
+        setMessage("Message sent successfully");
+        setIsLoading(false);
+    }
+
+
     return (
-        <div>
-            <div
-                className="container-fluid bg-white rounded p-4 m-4"
-            >
-                <h1>Contact</h1>
-                <p>For more information, please contact us at:</p>
-                <p>Phone: 555-555-5555</p>
-                <p>Email: <a href="mailto:hezarehee.h@gmail.com">hezarehee.h@gmail.com</a></p>
-                <address>
-                    <h2>Location</h2>
-                    <p>1234 Main St</p>
-                    <p>City, State 12345</p>
-                </address>
-            </div>
-            <div className="container-fluid bg-white routnded p-4 m-4">
-                <article className="col-6 d-flex">
-                    <h1>Contact us</h1>
-                    <form action="https://formspree.io/f/xnqoqzqz" method="POST">
-                        <div className="form-group">
-                            <label htmlFor="name">Name</label>
-                            <input type="text" name="name" id="name" className="form-control" required />
+        <div className="container">
+            <div className="row col-12">
+                <div
+                    style={{
+                        paddingLeft: "2rem"
+                    }}
+                    className="col-6 bg-white py-5 my-5 m-auto">
+                    <h1>Contact</h1>
+                    <p>Any questions? We would like to help you!</p>
+                    <div className="py-5">
+                        <button className="btn btn-outline-dark d-block my-3 col-10 m-auto">
+                            <MdOutlinePhone /> +46 36 10 10 00
+                        </button>
+                        <button className="btn btn-primary d-block my-3 col-10 m-auto">
+                            <FaRegEnvelope /> info@jonkoping.se
+                        </button>
+                        <button className="btn btn-outline-dark d-block my-3 col-10 m-auto">
+                            <IoLocationOutline />  Jönköping, Sweden
+                        </button>
+                    </div>
+                    <footer
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "50%",
+                            margin: "auto"
+                        }}
+                    >
+                        <FaFacebook style={{ fontSize: "2rem" }} />
+                        <FaTwitter style={{ fontSize: "2rem" }} />
+                        <FaInstagram style={{ fontSize: "2rem" }} />
+                        <FaLinkedin style={{ fontSize: "2rem" }} />
+                    </footer>
+                </div>
+                <div className="col-6 bg-white py-5 my-5"
+                    style={{
+                        paddingLeft: "2rem",
+                        borderLeft: "1px solid #ccc"
+                    }}
+                >
+                    <form className="col-10 m-auto" onSubmit={handleSubmit(onSubmit)}>
+                        <div className="input-group py-2">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">First and Last name:</span>
+                            </div>
+                            <input
+                                {...register("firstName")}
+                                type="text"
+                                className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
+                                placeholder="First name"
+                                value={contact.firstName}
+                                onChange={(e) => setContact({ ...contact, firstName: e.target.value })}
+                            />
+                            <input
+                                {...register("lastName")}
+                                type="text"
+                                className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
+                                placeholder="Last name"
+                                value={contact.lastName}
+                                onChange={(e) => setContact({ ...contact, lastName: e.target.value })}
+                            />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" name="email" id="email" className="form-control" required />
+                        {errors.firstName && <p className="error text-danger">{errors.firstName.message}</p>}
+                        {errors.lastName && <p className="error text-danger">{errors.lastName.message}</p>}
+                        <div className="form-group py-2">
+                            <label htmlFor="email">Email:</label>
+                            <input
+                                {...register("email")}
+                                type="email"
+                                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                                id="email"
+                                placeholder="email@example.com"
+                                value={contact.email}
+                                onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                            />
+                            {errors.email && <p className="error text-danger">{errors.email.message}</p>}
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="message">Message</label>
-                            <textarea name="message" id="message" className="form-control" required></textarea>
+                        <div className="form-group py-2">
+                            <label htmlFor="phone">Phone:</label>
+                            <input
+                                {...register("phone")}
+                                type="tel"
+                                className={`form-control ${errors.phone ? "is-invalid" : ""}`}
+                                id="phone"
+                                placeholder="+46708279043"
+                                value={contact.phone}
+                                onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                            />
+                            {errors.phone && <p className="error text-danger">{errors.phone.message}</p>}
                         </div>
-                        <button type="submit" className="btn btn-primary">Send</button>
+                        <div className="form-group py-2">
+                            <label htmlFor="message">Message:</label>
+                            <textarea
+                                {...register("message")}
+                                value={contact.message}
+                                onChange={(e) => setContact({ ...contact, message: e.target.value })}
+                                className={`form-control ${errors.message ? "is-invalid" : ""}`}
+                                id="message"
+                                rows="3"
+                            >
+                            </textarea>
+                        </div>
+                        <div className="form-check py-2">
+                            <input type="checkbox" className="form-check-input" id="agreement" required={true} />
+                            <label className="form-check-label" htmlFor="agreement">I agree the privacy policy and how <strong>JKPG City</strong> handles my personal data.</label>
+                        </div>
+                        <button type="submit" className="btn btn-primary my-3 py-2 col-12">
+                            {isLoading ? <div className="spinner-border text-light" role="status"></div> : < IoPaperPlane />}
+                        </button>
                     </form>
-                </article>
+                    {success && <div className="alert alert-success">{message}</div>}
+                    {error && <div className="alert alert-danger">{message}</div>}
+                </div>
             </div>
         </div>
     );

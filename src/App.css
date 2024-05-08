@@ -11,6 +11,10 @@ body {
     line-height: 1.6;
 }
 
+.primary-color {
+    color: #333 !important;
+}
+
 .btn-outline-info:hover {
     color: #fff;
 }

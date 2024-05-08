@@ -1,11 +1,88 @@
 [
   {
+    "name": "Åhlens",
+    "url": "ahlens.se/varuhus/jonkoping?utm_source=google&utm_medium=organic&utm_campaign=business_profile&utm_content=website_link",
+    "district": "Öster",
+    "type": "department store",
+    "logo": "https://ahlens.a.bigcontent.io/v1/static/logo",
+    "phone": "036-34 00 00",
+    "email": "info@ahlens.se",
+    "address": "Östra Storgatan 24",
+    "bio": "Åhléns är ett av Sveriges mest älskade varuhus. Här hittar du allt du behöver för vardagen och festen. Välkommen till oss!"
+  },
+  {
+    "name": "Akademibokhandeln",
+    "url": "akademibokhandeln.se/butik/jonkoping-c",
+    "district": "Öster",
+    "type": "store",
+    "logo": "https://www.akademibokhandeln.se/static/img/logo.svg",
+    "phone": "036-34 00 00",
+    "email": "info@akademibokhandeln.se",
+    "address": "Östra Storgatan 28A",
+    "bio": "Akademibokhandeln är Sveriges största bokhandelskedja. Här hittar du böcker, skrivmaterial, kontorsmaterial och mycket mer."
+  },
+  {
+    "name": "Apoteket AB",
+    "url": "apoteket.se/apotek/apoteket-ostra-storgatan-jonkoping/",
+    "district": null,
+    "type": "pharmacy",
+    "logo": "https://d2d3l62ibcj1br.cloudfront.net/hyperin-portal/imageserver/tenants/99938/Apoteket.png",
+    "phone": "0771-450 450",
+    "email": "info@apoteket.se",
+    "address": "Östra Storgatan 21",
+    "bio": "Apoteket är Sveriges ledande apotekskedja. Här hittar du allt du behöver för din hälsa och ditt välbefinnande."
+  },
+  {
+    "name": "Apotek Hjärtat",
+    "url": "apotekhjartat.se/hitta-apotek-hjartat/jonkoping/apotek_hjartat_smedjegatan_2_jonkoping/",
+    "district": null,
+    "type": "pharmacy",
+    "logo": "https://brommablocks.se/wp-content/uploads/2019/09/apotek_240x177.png",
+    "phone": "036-34 00 00",
+    "email": "info@apotekhjartat.se",
+    "address": "Smedjegatan 2",
+    "bio": "Apotek Hjärtat är en av Sveriges största apotekskedjor. Här hittar du allt du behöver för din hälsa och ditt välbefinnande."
+  },
+  {
+    "name": "Ashur Brud & Fest - Skrädderi",
+    "url": "facebook.com/AshuraitaBrudFest/",
+    "district": null,
+    "type": "tailor",
+    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGx49sjVxz1H-uZ9Qqh0GG537xoTelDP-sT1ty2EJvRQ&s",
+    "phone": "036-34 00 00",
+    "email": "info@ashur.se",
+    "address": "klostergatan 6b",
+    "bio": "Ashur Brud & Fest är en skrädderi som specialiserar sig på brudklänningar och festkläder. Här hittar du allt du behöver för din stora dag."
+  },
+  {
+    "name": "Asia livs, servicebutik",
+    "url": "facebook.com/profile.php?id=100051215441977",
+    "district": null,
+    "type": "grocery store",
+    "logo": "https://scontent.fbma3-1.fna.fbcdn.net/v/t39.30808-6/291748126_561182315598945_3079909764979694204_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=OaSFawL6cu4Q7kNvgHC7r7x&_nc_ht=scontent.fbma3-1.fna&oh=00_AfB4HOcmq8vryy-saeZoGIkIw0G0bL5nZFot_z9VbIUpiA&oe=663FB5F3",
+    "phone": "036-34 00 00",
+    "email": "info@asien.se",
+    "address": "Östra storgatan 86",
+    "bio": "Asia livs är en servicebutik som specialiserar sig på asiatiska livsmedel och produkter. Här hittar du allt du behöver för din matlagning."
+  },
+  {
+    "name": "Ateljé Creativ i Jönköping/Finrummet",
+    "url": "/finrummet.net",
+    "district": "Väster",
+    "type": "art gallery",
+    "logo": "",
+    "phone": "036-34 00 00",
+    "email": "info@finrummet.net",
+    "address": "Östra Storgatan 28A",
+    "bio": "är en liten butik på Väster i Jönköping. Här kan du köpa presenter, smycken, hantverk, inredningsprylar m.m."
+  },
+  {
     "name": "Ateljé KEG",
     "url": "ateljekeg.se",
     "district": "Öster",
     "type": "art gallery",
     "address": "Smedjegatan 28",
-    "bio": "I ateljén hittar Du gåvorna till någon alldeles speciell, kanske helt enkelt Dig själv. Här tillverkas smycken som går att köpa direkt i ateljén, eller så kan Du specialbeställa någonting personligt för just dig.",
+    "bio": "I ateljén hittar Du gåvorna till någon alldeles speciell, kanske helt enkelt Dig själv. Här tillverkas smycken som går att köpa direkt i ateljén, eller så kan Du specialbeställa någonting personligt för just dig. Välj bland olika toner på pärlor, storlekar på diamanter och magiska färger på ädelstenar. Med ett nära samarbete med våra leverantörer så kan vi hitta rätt pärla eller sten för just dig",
     "email": "info@atelkekeg.se",
     "phone": "036-34 00 00"
   },
