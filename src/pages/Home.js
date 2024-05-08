@@ -28,7 +28,8 @@ function Home() {
                 const newsResponse = await NewsController.all();
                 setNews(newsResponse.data);
                 const venues = await VenuesController.all();
-                setVenues(venues.data);
+                // choose only 4 venues to show on the homepage randomly and set them to the state
+                setVenues(venues.data.sort(() => Math.random() - Math.random()).slice(0, 4));
                 const homepageSettings = await SettingsController.getHomePageSettings();
                 document.title = homepageSettings.title;
             } catch (e) {
