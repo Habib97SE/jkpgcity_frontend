@@ -5,6 +5,7 @@ import { IoLocationOutline, IoPaperPlane } from "react-icons/io5";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { contactForm } from "../utils/form-fields";
 
 const validationSchema = yup.object().shape({
     firstName: yup.string().required('First Name is required').min(2, 'First Name must be at least 2 characters'),
@@ -91,17 +92,17 @@ function Contact() {
                             </div>
                             <input
                                 {...register("firstName")}
-                                type="text"
+                                type={contactForm.firstName.type}
                                 className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
-                                placeholder="First name"
+                                placeholder={contactForm.firstName.placeholder}
                                 value={contact.firstName}
                                 onChange={(e) => setContact({ ...contact, firstName: e.target.value })}
                             />
                             <input
                                 {...register("lastName")}
-                                type="text"
+                                type={contactForm.lastName.type}
                                 className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
-                                placeholder="Last name"
+                                placeholder={contactForm.lastName.placeholder}
                                 value={contact.lastName}
                                 onChange={(e) => setContact({ ...contact, lastName: e.target.value })}
                             />
@@ -109,42 +110,44 @@ function Contact() {
                         {errors.firstName && <p className="error text-danger">{errors.firstName.message}</p>}
                         {errors.lastName && <p className="error text-danger">{errors.lastName.message}</p>}
                         <div className="form-group py-2">
-                            <label htmlFor="email">Email:</label>
+                            <label htmlFor={contactForm.email.id}>{contactForm.email.label}</label>
                             <input
                                 {...register("email")}
-                                type="email"
+                                type={contactForm.email.type}
                                 className={`form-control ${errors.email ? "is-invalid" : ""}`}
-                                id="email"
-                                placeholder="email@example.com"
+                                id={contactForm.email.id}
+                                placeholder={contactForm.email.placeholder}
                                 value={contact.email}
                                 onChange={(e) => setContact({ ...contact, email: e.target.value })}
                             />
                             {errors.email && <p className="error text-danger">{errors.email.message}</p>}
                         </div>
                         <div className="form-group py-2">
-                            <label htmlFor="phone">Phone:</label>
+                            <label htmlFor={contactForm.phone.id}>{contactForm.phone.label}</label>
                             <input
                                 {...register("phone")}
-                                type="tel"
+                                type={contactForm.phone.type}
                                 className={`form-control ${errors.phone ? "is-invalid" : ""}`}
-                                id="phone"
-                                placeholder="+46708279043"
+                                id={contactForm.phone.id}
+                                placeholder={contactForm.phone.placeholder}
                                 value={contact.phone}
                                 onChange={(e) => setContact({ ...contact, phone: e.target.value })}
                             />
                             {errors.phone && <p className="error text-danger">{errors.phone.message}</p>}
                         </div>
                         <div className="form-group py-2">
-                            <label htmlFor="message">Message:</label>
+                            <label htmlFor={contactForm.message.id}>{contactForm.message.label}</label>
                             <textarea
                                 {...register("message")}
                                 value={contact.message}
                                 onChange={(e) => setContact({ ...contact, message: e.target.value })}
                                 className={`form-control ${errors.message ? "is-invalid" : ""}`}
-                                id="message"
+                                id={contactForm.message.id}
+
                                 rows="3"
                             >
                             </textarea>
+                            {errors.message && <p className="error text-danger">{errors.message.message}</p>}
                         </div>
                         <div className="form-check py-2">
                             <input type="checkbox" className="form-check-input" id="agreement" required={true} />
