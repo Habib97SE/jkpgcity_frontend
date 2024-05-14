@@ -3,16 +3,8 @@ import { MdEdit } from "react-icons/md";
 import "./style.css"
 import profile from "../../pages/Profile";
 
-function ProfilePicture() {
+function ProfilePicture({ src }) {
     const [isHovering, setIsHovering] = useState(false);
-    const [profilePic, setProfilePic] = useState("https://i.pravatar.cc/150");
-
-    const handleImageChange = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            const newImageUrl = URL.createObjectURL(e.target.files[0]);
-            setProfilePic(newImageUrl);
-        }
-    };
 
     return (
         <div
@@ -27,7 +19,7 @@ function ProfilePicture() {
             }}
         >
             <img
-                src={profilePic}
+                src={src}
                 alt="Profile Picture"
                 style={{
                     width: "100%", // Adjusted to 100% to fill the parent div
@@ -58,7 +50,6 @@ function ProfilePicture() {
                         id="profilePicInput"
                         style={{ display: 'none' }}
                         accept="image/*"
-                        onChange={handleImageChange}
                     />
                     <MdEdit size="24px" />
                 </div>

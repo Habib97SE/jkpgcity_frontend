@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "./components/Layout";
 import AdminLayout from "./components/AdminLayout";
 // pages for client sidde
-import { Contact, About, Home, News, SingleNews, Login, Register, Venues, Profile, SingleVenue } from "./pages";
+import { Newsletter, Contact, About, Home, News, SingleNews, Login, Register, Venues, Profile, SingleVenue } from "./pages";
 
 // pages for admin side
 import {
@@ -16,6 +16,7 @@ function App() {
     return (
         <Router>
             <Routes>
+                {/* Client Routes */}
                 <Route path={"/"} element={<Layout />}>
                     <Route index element={<Home />} />
 
@@ -31,7 +32,12 @@ function App() {
                     <Route path={"/profile"} element={<Profile />} />
                     <Route path={"/about"} element={<About />} />
                     <Route path={"/contact"} element={<Contact />} />
+
+                    <Route path={"/newsletter"} element={<Newsletter />} />
+
                 </Route>
+                {/* End of Client Routes */}
+                {/* Admin Routes */}
                 <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<Dashboard />} />
                     <Route path={"calendar"} element={<CalendarPage />} />
@@ -54,7 +60,9 @@ function App() {
                     <Route path={"settings"} element={<ShowSettings />} />
 
                 </Route>
-                <Route path={"*"} element={<h1>Not Found</h1>} />{/* 404 page */}
+                {/* End of Admin Routes */}
+                {/* 404 page */}
+                <Route path={"*"} element={<h1>Not Found</h1>} />
             </Routes>
         </Router>
     );

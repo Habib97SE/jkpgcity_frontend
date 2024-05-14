@@ -8,6 +8,7 @@ import News from "./News";
 import SingleNews from "./SingleNews";
 import Profile from "./Profile";
 import Contact from "./Contact";
+import Newsletter from "./Newsletter";
 
 
-export { SingleVenue, Contact, About, Login, Register, Home, Venues, News, SingleNews, Profile };
+export { Newsletter, SingleVenue, Contact, About, Login, Register, Home, Venues, News, SingleNews, Profile };

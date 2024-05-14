@@ -35,6 +35,20 @@ class User {
         return axios.get(`http://localhost:5001/api/v1/users`, { headers: headers });
     }
 
+    static async login(email, password) {
+        const headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "true",
+        }
+        const endpoint = "http://localhost:5001/api/v1/users/login";
+        const data = {
+            email: email,
+            password: password
+        }
+        return axios.post(endpoint, data, { headers: headers });
+
+    }
+
     static findByIdAndUpdate(id, data) {
         const headers = {
             "Content-Type": "application/json",

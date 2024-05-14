@@ -21,6 +21,10 @@ function NavBar() {
         { href: "/contact", text: "Contact" },
     ];
 
+    const handleSearchClick = () => {
+        alert("Search is not implemented yet.");
+    }
+
     const navItems = menuItems.map((item, index) => {
         return (
             <NavItem
@@ -33,7 +37,7 @@ function NavBar() {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ minHeight: "10vh" }}>
-            <div className="container-fluid mx-5">
+            <div className="container-fluid mx-5" style={{ marginRight: "2rem" }}>
                 {/* Logo */}
                 <a className="navbar-brand" href="/" style={{ fontSize: "1.5rem" }}>JKPG City.</a>
 
@@ -53,11 +57,11 @@ function NavBar() {
                 </div>
 
 
-                <div className="d-flex">
-                    <FaSearch style={iconStyle} /> {/* Search Icon */}
-                    <IoIosNotifications style={iconStyle} /> {/* Notifications Icon */}
-                    <ProfileItem />
-                </div>
+
+                <FaSearch style={iconStyle} onClick={handleSearchClick} /> {/* Search Icon */}
+                <IoIosNotifications style={iconStyle} /> {/* Notifications Icon */}
+                <ProfileItem />
+
             </div>
         </nav>
     );
