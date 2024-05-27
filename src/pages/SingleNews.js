@@ -1,13 +1,14 @@
 import Article from "../components/Article/Article";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
+import NewsArticle from "../components/News/NewsArticle";
 
 function SingleNews() {
 
-    let {id} = useParams();
+    let { id } = useParams();
 
 
     return (
-        <Article id={id} />
+        <NewsArticle />
     );
 }
 

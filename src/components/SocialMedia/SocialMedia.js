@@ -1,35 +1,24 @@
 import React from "react";
 import "./SocialMedia.css";
-import {FaFacebook, FaTwitter, FaInstagram, FaLinkedin} from "react-icons/fa";
-import Square from "../Calendar/Square";
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 function SocialMedia() {
 
-    return (<div className={"container-fluid"}>
-        <div className={"row bg-dark-subtle text-white "}>
-                <span className={"d-flex flex-column justify-content-center align-content-center"} style={{
-                    alignItems: "baseline"
-                }}>
-                    <h3>
-                        Follow us on social media:
-                    </h3>
-                    <div className={"d-flex flex-row"}>
-                        <div className={"d-flex flex-column"}>
-                            <FaFacebook style={{fontSize: "75px", color: "#3b5998"}}/>
-                        </div>
-                        <div className={"d-flex flex-column"}>
-                            <FaTwitter style={{fontSize: "75px", color: "#00acee"}}/>
-                        </div>
-                        <div className={"d-flex flex-column"}>
-                            <FaInstagram style={{fontSize: "75px", color: "#e4405f"}}/>
-                        </div>
-                        <div className={"d-flex flex-column"}>
-                            <FaLinkedin style={{fontSize: "75px", color: "#0e76a8"}}/>
-                        </div>
-                    </div>
-                </span>
+    return (
+        <div className="bg-light container-fluid">
+            <div className="row">
+                <div className="col-12 text-center py-2">
+                    <h1 className="text-center">Follow Us</h1>
+                    <FaFacebook className="social-icon" style={{ color: "#4267B2" }} />
+                    <FaTwitter className="social-icon" style={{ color: "#1DA1F2" }} />
+                    <FaInstagram className="social-icon" style={{ color: "#E4405F" }} />
+                    <FaLinkedin className="social-icon" style={{ color: "#0A66C2" }} />
+                </div>
+            </div>
         </div>
-    </div>);
+    );
 }
 
 export default SocialMedia;
+
+

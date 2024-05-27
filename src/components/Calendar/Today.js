@@ -2,34 +2,52 @@ import React, { useEffect, useState } from "react";
 import TodoController from "../../controller/TodoController";
 
 
-function Today({ year, month, day }) {
+function Today() {
     const [todos, setTodos] = useState([]);
 
 
-
     useEffect(() => {
-        const fetchTodos = async () => {
-            const todos = await TodoController.getTodos({ dueDate: `${year}-${month}-${day}` });
-            setTodos(todos);
-        };
+        const date = new Date();
+        const year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        if (month < 10) {
+            month = `0${month}`;
+        }
+        if (day < 10) {
+            day = `0${day}`;
+        }
 
-        //fetchTodos();
-    });
+        const fetchData = async () => {
+            const response = await TodoController.getTodos({ dueDate: `${year}-${month}-${day}` });
+            setTodos(response.data);
+        }
+        fetchData();
+    }, []);
 
-    if (todos.length > 0) {
+    // If there are todos, display them, otherwise display a message "No todos for today"
+    if (todos !== undefined && todos.length > 0) {
         return (
             <div
                 style={{
-                    border: "1px solid black",
-                    padding: "10px",
+
                     borderRadius: "10px",
-                    backgroundColor: "lightgrey"
                 }}
             >
                 <h2>Today's Todos</h2>
                 <ul>
                     {todos.map((t, index) => (
-                        <li key={index}>{t.title}</li>
+                        <li
+                            style={{
+                                listStyleType: "none",
+                                backgroundColor: "lightgray",
+                                textAlign: "center",
+                                padding: "5px",
+                                borderRadius: "5px",
+                            }}
+                            key={index}>
+                            {t.title}
+                        </li>
                     ))}
                 </ul>
             </div>

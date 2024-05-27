@@ -71,7 +71,7 @@ function Calendar({ year, month }) {
                         </p>
                     </div>
                     <div className="col-5">
-                        <Today year={2024} month={5} day={1} />
+                        <Today />
                     </div>
                     <div className="col-2">
                         {/* button to add new todo */}

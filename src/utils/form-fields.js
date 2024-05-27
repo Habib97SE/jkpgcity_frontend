@@ -154,3 +154,35 @@ export const loginForm = {
     }
 }
 
+export const contactForm = {
+    firstName: {
+        type: "text",
+        label: "First name",
+        placeholder: "Enter first name",
+        id: "first-name"
+    },
+    lastName: {
+        type: "text",
+        label: "Last name",
+        placeholder: "Enter last name",
+        id: "last-name"
+    },
+    email: {
+        type: "email",
+        label: "Email",
+        placeholder: "Enter email",
+        id: "email"
+    },
+    phone: {
+        type: "tel",
+        label: "Phone",
+        placeholder: "Enter phone",
+        id: "phone"
+    },
+    message: {
+        type: "textarea",
+        label: "Message",
+        placeholder: "Enter message",
+        id: "message"
+    }
+}

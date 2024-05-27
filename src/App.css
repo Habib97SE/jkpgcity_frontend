@@ -11,6 +11,10 @@ body {
     line-height: 1.6;
 }
 
+.primary-color {
+    color: #333 !important;
+}
+
 .btn-outline-info:hover {
     color: #fff;
 }
@@ -18,4 +22,8 @@ body {
 /* Remove the small caret next to dropdown element. */
 .dropdown-toggle::after {
     display: none;
+}
+
+.nav-item:last-child {
+    margin-right: 30px;
 }

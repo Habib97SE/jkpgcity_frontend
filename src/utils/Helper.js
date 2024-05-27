@@ -67,6 +67,19 @@ class Helper {
         };
     }
 
+
+    static getAvatarUrl(name) {
+
+        const nameArray = name.split(" ");
+
+        if (nameArray.length < 2) {
+            return `https://ui-avatars.com/api/?name=${name}&background=0D8ABC&color=fff&size=150`;
+        }
+        const firstName = nameArray[0];
+        const lastName = nameArray[1];
+        return `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=0D8ABC&color=fff&size=150`;
+    }
+
 }
 
 export default Helper;

@@ -1,7 +1,7 @@
 import React from "react";
-import {FaEnvelope} from "react-icons/fa";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { FaEnvelope } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import NewsletterController from "../../controller/NewsletterController";
 
@@ -22,7 +22,7 @@ function Newsletter() {
         handleOnSubmit
     } = NewsletterController();
 
-    const {register, handleSubmit, formState: {errors}} = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -49,20 +49,21 @@ function Newsletter() {
     return (
         <form className={"form-inline"} onSubmit={handleSubmit(onSubmit)}>
             <div className="input-group mb-3">
-                <button className={"btn btn-outline-secondary"}><FaEnvelope/></button>
+                <button className={"btn btn-outline-light"} style={{ color: "gray" }}><FaEnvelope /></button>
                 <input
                     {...register("email")}
                     type="email"
-                    className="form-control"
+                    className="form-control rounded mx-2"
                     placeholder="Email"
                     value={email}
                     onChange={handleEmail}
                     required={true}
                 />
-                <button className="btn btn-outline-secondary" type="submit">{
+
+                <button className="btn btn-dark rounded mx-2" type="submit">{
                     isLoading ? <div className="spinner-border" role="status">
                         <span className="sr-only"></span>
-                    </div> : "Login"
+                    </div> : "Subscribe"
                 }</button>
             </div>
             {errors.email && <div className="alert alert-danger">{errors.email.message}</div>}

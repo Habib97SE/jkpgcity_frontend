@@ -35,9 +35,10 @@ function Square({ size, color, year, month, day, children }) {
     const [todos, setTodos] = useState([]);
 
     useEffect(() => {
+        console.log("fetching todos");
         const fetchTodos = async () => {
             const todosFromDB = await TodoController.getTodos({ dueDate: `${year}-${parseInt(month) + 1}-${day}` });
-            console.log(todosFromDB);
+
             if (!todosFromDB.data) {
                 setTodos([]);
             } else {

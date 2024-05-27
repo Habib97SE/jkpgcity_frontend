@@ -58,7 +58,7 @@ function ShowUsers() {
                 <a href={"/admin/users/new"} className={"btn btn-primary"}>Add User</a>
             </div>
             <p>View and manage users</p>
-            <table className="table table-striped table-hover">
+            <table className="table table-striped table-hover text-center">
                 <thead>
                     <tr>
                         <th>Full name</th>
@@ -70,17 +70,18 @@ function ShowUsers() {
                 </thead>
                 <tbody>
                     {users.map(user => (
-                        <tr key={user.id}>
+                        <tr
+                            key={user.id}>
                             <td>{user.firstName} {user.lastName}</td>
                             <td>{user.email}</td>
-                            <td>{user.phone}</td>
-                            <td>{user.roleId === 1 ? "Admin" : "User"}</td>
+                            <td>{user.phone === null ? "-" : user.phone}</td>
+                            <td>{user.role}</td>
                             <td>
-                                <a href={`/admin/users/${user.userId}`} className={"btn btn-sm btn-warning m-2 text-white"}><MdEdit /> Edit</a>
+                                <a href={`/admin/users/${user.userId}`} className={"btn btn-sm btn-warning text-white"}><MdEdit /> Edit</a>
                                 <button onClick={() => {
                                     setUserToDelete(user);
                                     setShowDeleteModal(true);
-                                }} className={"btn btn-sm btn-danger m-2"}  ><MdDelete /> Delete</button>
+                                }} className={"btn btn-sm btn-danger mx-2"}  ><MdDelete /> Delete</button>
                             </td>
                         </tr>
                     ))}
