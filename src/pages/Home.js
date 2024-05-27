@@ -16,6 +16,7 @@ import VenuesController from "../controller/VenuesController";
 import SettingsController from "../controller/SettingsController";
 import NewsCard from "../components/News/NewsCard";
 import NewsController from "../controller/NewsController";
+import { Link } from "react-router-dom";
 
 function Home() {
 
@@ -29,7 +30,7 @@ function Home() {
                 setNews(newsResponse.data);
                 const venues = await VenuesController.all();
                 // choose only 4 venues to show on the homepage randomly and set them to the state
-                setVenues(venues.data.sort(() => Math.random() - Math.random()).slice(0, 4));
+                setVenues(venues.data.sort(() => Math.random() - Math.random()).slice(0, 3));
                 const homepageSettings = await SettingsController.getHomePageSettings();
                 document.title = homepageSettings.title;
             } catch (e) {
@@ -48,7 +49,7 @@ function Home() {
     ]
 
     return (
-        <>
+        <div className="bg-white">
             <Slider slides={[
                 {
                     type: "image",
@@ -144,17 +145,33 @@ function Home() {
                     <h2>Latest news</h2>
                     <a href={"/news"}>See all news</a>
                 </div>
-                <div className="col-11 d-flex justify-content-between align-content-center">
-                    {/** Show only up to three news section */}
-                    {news.length > 0 ? news.slice(0, 3).map(article => <NewsCard key={article.id} article={article} />) :
-                        <h2>No news found</h2>}
+                <div className="row">
+                    <div className="col-12 mx-auto">
+                        {/** Show only up to three news section */}
+                        {news.length > 0 ? news.slice(0, 3).map(article => <NewsCard key={article.id} article={article} />) :
+                            <h2>No news found</h2>}
+                    </div>
                 </div>
             </div>
-            <div className="col-11 d-flex flex-wrap justify-content-center bg-white rounded m-2" style={{ margin: "auto" }}>
-                {/* Add venues */}
-
-                {venues.length > 0 ? venues.map(venue => <Venue key={venue.id} venue={venue} />) :
-                    <h2>No venues found</h2>}
+            <div className="col-10 mx-auto" style={{ margin: "auto", display: "inline-block" }}>
+                <div className="d-flex justify-content-between">
+                    <div>
+                        <h2>
+                            Venues in JKPG City
+                        </h2>
+                        <p>
+                            Below you can find some of the venues in Jönköping. Click on the venue to see more information.
+                        </p>
+                    </div>
+                    <div>
+                        <Link to={"/venues"}>See all venues</Link>
+                    </div>
+                </div>
+                <div className="d-flex flex-row justify-content-evenly">
+                    {/* Add venues */}
+                    {venues.length > 0 ? venues.map(venue => <Venue key={venue.id} venue={venue} />) :
+                        <h2>No venues found</h2>}
+                </div>
             </div>
 
             {/* Open hours section built on Jumbotron */}
@@ -165,7 +182,7 @@ function Home() {
                 image={JonkopingImageOne}
                 additionalElement={<a href={"/contact"} className={"btn btn-primary"}>Contact us</a>} />
             <SocialMedia />
-        </>
+        </div>
 
     );
 }

@@ -80,7 +80,7 @@ class CustomDate {
     /**
      * Checks if the venue is open now based on the open hours provided and the current time of the day
      * @param {string} openHours : The open hours of the venue in the format "HH - HH"
-     * @returns {boolean} : true if the current time is between the open hours, false otherwise
+     * @returns {string} : true if the current time is between the open hours, false otherwise
      * 
      * @example
      * const openHours = "08 - 17";
@@ -90,16 +90,22 @@ class CustomDate {
      */
     static isOpenNow(openHours) {
         // the openHours is string in the format HH - HH
-        const [open, close] = openHours.split(" - ");
+        const [open, close] = openHours.split("-");
         // take the current time, 
         const currentDate = new Date();
         // if the current time is between the open and close time, return "Open"
         const currentHour = currentDate.getHours();
 
         if (currentHour >= parseInt(open) && currentHour < parseInt(close)) {
-            return true;
+            return "Open Now";
         }
-        return false;
+        // if closed, check if it is before 00:00 or after 00:00 
+        // if the current time is between closed time and 00:00 return "opens tomorrow at 10AM" else return "Opens at 10AM"
+        if (currentHour >= parseInt(close) && currentHour < 24) {
+            return `Opens tomorrow at ${open}AM`;
+        } else {
+            return `Opens at ${open}AM`;
+        }
     }
 
 }

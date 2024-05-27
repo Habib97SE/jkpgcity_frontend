@@ -24,7 +24,7 @@ function ProfileSection() {
                         <ProfilePicture src={imageSrc} />
                         <h5 className="card-title ms-3 mb-0">{user.firstName + ' ' + user.lastName}</h5>
                     </div>
-                    <p className="card-text">Here you're going to write your bio.</p>
+                    <p className="card-text">{user.bio}</p>
                 </div>
             </div>
             <div className="card my-2">
@@ -38,10 +38,10 @@ function ProfileSection() {
                     <div>
                         <div>
                             <p className="card-text"><FaEnvelope />{" " + user.email}</p>
-                            <p className="card-text"><FaPhone />{user.phone === null ? " Not entered" : user.phone}</p>
-                            <a href="#" className="btn btn-outline-info col-3 m-2"><p className="card-text d-inline-block"><FaFacebook /></p></a>
-                            <a href="#" className="btn btn-outline-info  col-3 m-2"><p className="card-text"><FaTwitter /></p></a>
-                            <a href="#" className="btn btn-outline-info  col-3 m-2"><p className="card-text"><FaInstagram /></p></a>
+                            <p className="card-text"><FaPhone />{user.phone === null ? " Not entered" : " " + user.phone}</p>
+                            <a href={user.facebook} className="btn btn-outline-info col-3 m-2"><p className="card-text d-inline-block"><FaFacebook /></p></a>
+                            <a href={user.twitter} className="btn btn-outline-info  col-3 m-2"><p className="card-text"><FaTwitter /></p></a>
+                            <a href={user.instagram} className="btn btn-outline-info  col-3 m-2"><p className="card-text"><FaInstagram /></p></a>
                         </div>
                     </div>
                 </div>

@@ -1,27 +1,38 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Helper from "../../utils/Helper";
+import { logoutUser } from "../../utils/userSlice";
+import { persistor } from "../../store"; // Import persistor
 
 function ProfileItem() {
     const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
-    let loggedInAvatar = "";
-    let loggedOutAvatar = "";
+    let userAvatar = ""
 
     if (user.isAuthenticated) {
-        loggedInAvatar = Helper.getAvatarUrl(user.userData.firstName + " " + user.userData.lastName);
+        userAvatar = Helper.getAvatarUrl(user.userData.firstName + " " + user.userData.lastName)
     } else {
-        loggedOutAvatar = Helper.getAvatarUrl("Guest");
+        userAvatar = Helper.getAvatarUrl("Guest")
     }
 
-    const avatarUrl = user.isAuthenticated ? loggedInAvatar : loggedOutAvatar;
+
+    const handleLogoutClick = () => {
+        dispatch(logoutUser());
+        persistor.purge(); // Clear persisted state on logout
+        // remove access_token cookie
+        document.cookie = "access_token" + '=; Max-Age=0';
+        window.location.href = "/";
+    }
+
+
 
     return (
         <li className="nav-item dropdown" style={{ listStyle: "none" }}>
             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <img
-                    src={avatarUrl}
+                    src={userAvatar}
                     alt="Profile"
                     style={{
                         width: "40px",
@@ -35,9 +46,9 @@ function ProfileItem() {
             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 {user.isAuthenticated ? (
                     <>
-                        <li className="dropdown-item">Welcome {user.userData.firstName}</li>
+                        <li className="dropdown-item fw-bold">Welcome {user.userData.firstName}</li>
                         <li><a className="dropdown-item" href="/profile">Profile</a></li>
-                        <li><a className="dropdown-item" href="/logout">Logout</a></li>
+                        <li><a className="dropdown-item" href="#" onClick={handleLogoutClick} >Logout</a></li>
                     </>
                 ) : (
                     <>

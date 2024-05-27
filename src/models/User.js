@@ -20,7 +20,7 @@ class User {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "true",
         }
-        console.log("Creating user");
+
         return axios.post(`http://localhost:5001/api/v1/users`, data, { headers: headers });
     }
 

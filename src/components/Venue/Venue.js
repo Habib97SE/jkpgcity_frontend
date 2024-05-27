@@ -57,7 +57,7 @@ function Venue({ id, venue }) {
         <Link to={`/venues/${venue.venueId}`} className={"col-3 card"} style={{ textDecoration: "none" }} >
             <div
                 key={id}
-                className="venue col-12 bg-light rounded"
+                className="venue bg-light rounded"
                 style={{ display: "inline-block", padding: 0, borderRadius: "0 0 10px 10px" }}
             >
                 <img
@@ -97,9 +97,8 @@ function Venue({ id, venue }) {
                             }}
                         >
 
-                            {CustomDate.isOpenNow("10 - 20")
-                                ? <div className="alert alert-success">Open now (closes at 20:00)</div>
-                                : <div className="alert alert-danger">Closed now (opens tomorrow at 10:00)</div>
+                            {
+                                CustomDate.isOpenNow("10-19")
                             }
                         </span>
                     </footer>

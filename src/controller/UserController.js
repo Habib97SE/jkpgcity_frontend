@@ -37,6 +37,7 @@ class UserController {
 
     static async getRoles() {
         const result = await User.getRoles();
+
         return result.data.data;
     }
 
@@ -51,17 +52,13 @@ class UserController {
     static async login(email, password) {
         email = email.toLowerCase();
         password = password.trim();
-        console.log("Logging in");
-        console.log(email);
-        console.log(password);
         const response = await User.login(email, password);
-        console.log(response);
 
         if (response.data.message === "Success") {
             const accessToken = response.data.access_token;
             // store the access token as cookie
             document.cookie = `access_token=${accessToken}`;
-            console.log("Cookie set");
+
             return {
                 status: 200,
                 data: response.data.data

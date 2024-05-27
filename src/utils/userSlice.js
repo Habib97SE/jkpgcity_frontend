@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { persistor } from '../store';
 
 const initialState = {
     isAuthenticated: false,
@@ -14,10 +13,10 @@ const userSlice = createSlice({
             state.isAuthenticated = true;
             state.userData = action.payload;
         },
+        // Don't include persistor.purge() here
         logoutUser(state) {
             state.isAuthenticated = false;
             state.userData = null;
-            persistor.purge(); // Clear persisted state on logout
         }
     }
 });

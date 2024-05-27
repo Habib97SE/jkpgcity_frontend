@@ -69,10 +69,9 @@ class Helper {
 
 
     static getAvatarUrl(name) {
-        console.log(name);
+
         const nameArray = name.split(" ");
-        console.log(nameArray);
-        console.log(nameArray.length);
+
         if (nameArray.length < 2) {
             return `https://ui-avatars.com/api/?name=${name}&background=0D8ABC&color=fff&size=150`;
         }

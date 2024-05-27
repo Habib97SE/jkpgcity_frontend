@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Helper from "../utils/Helper";
 import {
     FaCog,
     FaEnvelope,
@@ -10,6 +11,7 @@ import {
     FaUsers
 } from "react-icons/fa";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NavItem = ({ key, href, children }) => {
     return (
@@ -87,6 +89,8 @@ function AdminLayout({ children }) {
             />
         );
     });
+
+    const user = useSelector(state => state.user.userData);
 
     // handle the unread notifications, when a usr clicks on the item, then the notification should be disappeared
     const handleUnreadNotifications = () => {
@@ -175,7 +179,7 @@ function AdminLayout({ children }) {
                                                 id="navbarDropdownMenuLink"
                                                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <img
-                                                    src="https://i.pravatar.cc/150"
+                                                    src={Helper.getAvatarUrl(user.firstName + " " + user.lastName)}
                                                     alt="Profile"
                                                     style={{
                                                         width: "30px",
@@ -184,7 +188,7 @@ function AdminLayout({ children }) {
                                                         objectFit: "cover",
                                                     }}
                                                 />
-                                                <span className={"mx-1"}>Habib Hezarehee</span>
+                                                <span className={"mx-1"}>{user.firstName + " " + user.lastName}</span>
                                             </a>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                                 <li><a className="dropdown-item" href="/profile">My Profile</a></li>

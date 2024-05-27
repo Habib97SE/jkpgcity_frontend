@@ -14,36 +14,36 @@ const Footer = () => {
                         <Newsletter />
                     </div>
                     <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 className="text-uppercase">Links</h5>
+                        <h5 className="text-uppercase">About us</h5>
                         <ul className="list-unstyled mb-0">
                             <li>
-                                <a href="#!" className="text-dark">Link 1</a>
+                                <a href="#!" className="text-dark">JKPG City</a>
                             </li>
                             <li>
-                                <a href="#!" className="text-dark">Link 2</a>
+                                <a href="#!" className="text-dark">Our history</a>
                             </li>
                             <li>
-                                <a href="#!" className="text-dark">Link 3</a>
+                                <a href="#!" className="text-dark">Our vision</a>
                             </li>
                             <li>
-                                <a href="#!" className="text-dark">Link 4</a>
+                                <a href="#!" className="text-dark">Careers</a>
                             </li>
                         </ul>
                     </div>
                     <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-                        <h5 className="text-uppercase">Links</h5>
+                        <h5 className="text-uppercase">Customer Service</h5>
                         <ul className="list-unstyled mb-0">
                             <li>
-                                <a href="#!" className="text-dark">Link 1</a>
+                                <a href="#!" className="text-dark">FAQ</a>
                             </li>
                             <li>
-                                <a href="#!" className="text-dark">Link 2</a>
+                                <a href="#!" className="text-dark">Contact us</a>
                             </li>
                             <li>
-                                <a href="#!" className="text-dark">Link 3</a>
+                                <a href="#!" className="text-dark">Submit complains</a>
                             </li>
                             <li>
-                                <a href="#!" className="text-dark">Link 4</a>
+                                <a href="#!" className="text-dark">Suggestions</a>
                             </li>
                         </ul>
                     </div>

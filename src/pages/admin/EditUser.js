@@ -24,6 +24,7 @@ function EditUser() {
 
     const { id } = useParams();
 
+
     const [user, setUser] = useState({
         firstName: "",
         lastName: "",
@@ -38,13 +39,29 @@ function EditUser() {
 
     const [roles, setRoles] = useState([]);
 
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [message, setMessage] = useState("");
+
     const onSubmit = async (data) => {
         const result = await UserController.update(id, data);
+        if (result.message === "Success") {
+            setError(false);
+            setSuccess(true);
+            setMessage("User updated successfully");
+        } else {
+            setError(true);
+            setSuccess(false);
+            setMessage("An error occurred. Please try again");
+        }
+
     }
 
     useEffect(() => {
         const fetchData = async () => {
+
             const response = await UserController.get(id);
+
             if (response != null) {
                 setUser(response);
             }
@@ -53,6 +70,8 @@ function EditUser() {
         }
         fetchData();
     }, [id]);
+
+
 
     return (
         <div
@@ -108,26 +127,24 @@ function EditUser() {
                 </div>
 
                 <div className="form-group my-4">
-                    <label htmlFor={"role"}>Role</label>
+                    <label htmlFor="role">Role</label>
                     <select
                         {...register("role")}
-                        name={"role"}
+                        name="role"
                         className={`form-select ${errors.role ? "is-invalid" : ""}`}
-                        value={user.role}
-                        onChange={(e) => setUser({ ...user, role: e.target.value })}
+                        value={user.roleId}
+                        onChange={(e) => setUser({ ...user, roleId: e.target.value })}
                     >
-                        <option value={""}>Select Role</option>
+
                         {roles.map(role => (
-                            <option
-                                style={{ textTransform: "capitalize" }}
-                                key={role.roleId}
-                                value={role.roleId}>
+                            <option key={role.roleId} value={role.roleId}>
                                 {role.roleName}
                             </option>
                         ))}
                     </select>
-                    {errors.role && <p className={"text-danger"}>{errors.role.message}</p>}
+                    {errors.role && <p className="text-danger">{errors.role.message}</p>}
                 </div>
+
                 <div className="form-group my-4">
                     <label htmlFor={"phone"}>Phone</label>
                     <input
@@ -194,6 +211,10 @@ function EditUser() {
                 </div>
                 <button type={"submit"} className={"btn btn-primary"}>Submit</button>
             </form>
+            <div className="row">
+                {error && <div className="alert alert-danger">{message}</div>}
+                {success && <div className="alert alert-success">{message}</div>}
+            </div>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlinePhone } from "react-icons/md";
 import { FaRegEnvelope, FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { IoLocationOutline, IoPaperPlane } from "react-icons/io5";
@@ -20,13 +20,13 @@ function Contact() {
         resolver: yupResolver(validationSchema)
     });
 
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [error, setError] = React.useState(false);
-    const [success, setSuccess] = React.useState(false);
-    const [message, setMessage] = React.useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [message, setMessage] = useState("");
 
     // store contact form data
-    const [contact, setContact] = React.useState({
+    const [contact, setContact] = useState({
         firstName: "",
         lastName: "",
         email: "",
@@ -44,6 +44,10 @@ function Contact() {
     }
 
 
+    useEffect(() => {
+        document.title = "Contact us - Jönköping City";
+    }, [])
+
     return (
         <div className="container">
             <div className="row col-12">
@@ -59,7 +63,7 @@ function Contact() {
                             <MdOutlinePhone /> +46 36 10 10 00
                         </button>
                         <button className="btn btn-primary d-block my-3 col-10 m-auto">
-                            <FaRegEnvelope /> info@jonkoping.se
+                            <FaRegEnvelope /> info@jkpgcity.se
                         </button>
                         <button className="btn btn-outline-dark d-block my-3 col-10 m-auto">
                             <IoLocationOutline />  Jönköping, Sweden
@@ -154,7 +158,7 @@ function Contact() {
                             <label className="form-check-label" htmlFor="agreement">I agree the privacy policy and how <strong>JKPG City</strong> handles my personal data.</label>
                         </div>
                         <button type="submit" className="btn btn-primary my-3 py-2 col-12">
-                            {isLoading ? <div className="spinner-border text-light" role="status"></div> : < IoPaperPlane />}
+                            {isLoading ? <div className="spinner-border text-light" role="status"></div> : <span>Send < IoPaperPlane /></span>}
                         </button>
                     </form>
                     {success && <div className="alert alert-success">{message}</div>}
